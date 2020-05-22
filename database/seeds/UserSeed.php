@@ -78,8 +78,8 @@ class UserSeed extends Seeder
         ///crearmos el usario por defecto
         $user_password = Hash::make('root1234');
         $user = User::create([
-            'name' => 'Administrador',
-            'last_name' => 'Administrador',
+            'name' => 'David',
+            'last_name' => 'Vargas',
             'username' => 'admin',
             'birth_date' => '2020/12/12',
             'gender' => 'masculino',

@@ -3,6 +3,11 @@
         <div class="form-group">
             {!! Form::label('id_category', 'Categoría') !!}
             {!! Form::select('id_category', $categories,null, ['class'=>'form-control']) !!}
+            @error('id_category')
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ $message }}.
+            </div>
+            @enderror
         </div>
     </div>
     <div class="col-lg-12">

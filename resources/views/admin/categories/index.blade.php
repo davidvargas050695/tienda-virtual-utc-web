@@ -23,7 +23,7 @@
                 <div class="ibox-title">Lista de Categorías</div>
             </div>
             <div class="ibox-body">
-                <div class="table-categories">
+                <div class="table-categories table-responsive">
                     @include('admin.categories.tableCategorie')
 
                 </div>

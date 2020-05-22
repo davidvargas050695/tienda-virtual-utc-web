@@ -21,7 +21,7 @@
                         <a href="javascript:;"><i class="sidebar-item-icon fa fa-bookmark"></i>
                             <span class="nav-label">Categorías</span><i class="fa fa-angle-left arrow"></i></a>
                         <ul class="nav-2-level collapse">
-                            <li>
+                            <li >
                                 <a href="{{route('get-category')}}">Categorias</a>
                             </li>
                             <li>

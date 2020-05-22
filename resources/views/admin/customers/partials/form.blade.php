@@ -26,11 +26,6 @@
         <div class="form-group">
             {!! Form::label('id_sub_category', 'Categoría') !!}
             {!! Form::select('id_sub_category', $subcategories,null, ['class'=>'form-control']) !!}
-            @error('id_sub_category')
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ $message }}.
-            </div>
-            @enderror
         </div>
     </div>
 
@@ -47,17 +42,6 @@
     </div>
     <div class="col-lg-6">
         <div class="form-group">
-            {!! Form::label('url_image', 'Fotografía (jpeg, png, jpg)') !!}
-            {!! Form::file('url_image', ['class'=>'form-control']) !!}
-            @error('url_image')
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ $message }}.
-            </div>
-            @enderror
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="form-group">
             {!! Form::label('purchase_price', 'Precio de compra') !!}
             {!! Form::text('purchase_price',null, ['class'=>'form-control']) !!}
             @error('purchase_price')
@@ -67,7 +51,7 @@
              @enderror
         </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('sale_price', 'Precio de venta') !!}
             {!! Form::text('sale_price',null, ['class'=>'form-control']) !!}
@@ -78,7 +62,6 @@
              @enderror
         </div>
     </div>
-
     <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('stock', 'Cantidad') !!}

@@ -33,6 +33,7 @@ class StoreProductPost extends FormRequest
             'stock'=>'required|integer',
             'description'=>'required|string',
             'status'=>'required',
+            'url_image'=>'mimes:jpg,jpeg,png',
 
         ];
     }
@@ -53,6 +54,7 @@ class StoreProductPost extends FormRequest
             'description.required' => 'Este campo es obligatorio.',
             'status.required' => 'Este campo es obligatorio.',
             'id_category.required' => 'Debe selecionar una categoría.',
+            'url_image.mimes' => 'Formato de imagen incorrecto.',
         ];
     }
 }

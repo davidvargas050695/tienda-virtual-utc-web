@@ -47,10 +47,13 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
-
+        'photos' => [
+            'driver' => 'local',
+            'root'   => public_path('img/products'),
+        ],
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => public_path(),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],

@@ -24,7 +24,7 @@
             </div>
             <div class="ibox-body">
                 @if (count($subcategories)>0)
-                    <div class="table-categories">
+                    <div class="table-categories table-responsive">
                         @include('admin.subcategories.tableCategorie')
 
                     </div>

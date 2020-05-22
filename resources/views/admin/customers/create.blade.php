@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="ibox-body">
-                {!! Form::open(['url' => 'store-product','files' => true]) !!}
+                {!! Form::open(['url' => 'store-product']) !!}
                     @include('admin.products.partials.form')
                 {!! Form::close() !!}
             </div>

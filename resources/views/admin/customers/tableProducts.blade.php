@@ -1,7 +1,6 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>Foto</th>
             <th>Código</th>
             <th>Nombre</th>
             <th>Descripción</th>
@@ -14,7 +13,6 @@
     <tbody>
         @foreach ($products as $product)
         <tr>
-            <td><img width="40" height="40" src="{{$product->url_image}}" alt="" class="img-responsive"></td>
             <td>{{$product->code}}</td>
             <td>{{$product->name}}</td>
             <td>{{$product->description}}</td>
