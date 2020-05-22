@@ -60,15 +60,19 @@ class UserSeed extends Seeder
 
 
         /// cramos los roles para que son admin, tecnico1, tecnico 2, clinete
-        $role = Role::create(['name' => 'admin']);
+        $role = Role::create(['name' => 'admin','status'=>'activo']);
 
         //asignacion de los permisos al rol admin
         $role->givePermissionTo(Permission::all());
 
         ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
-        $role = Role::create(['name' => 'customer']);
+        $role = Role::create(['name' => 'Cliente','status'=>'activo']);
         //asignacion de los permisos al rol TECNICO SECUNDARIO
         $role->givePermissionTo('read user');
+        $role->givePermissionTo('read product');
+        $role->givePermissionTo('read category');
+        $role->givePermissionTo('read subcategory');
+
 
 
         /*
@@ -83,6 +87,7 @@ class UserSeed extends Seeder
             'username' => 'admin',
             'birth_date' => '2020/12/12',
             'gender' => 'masculino',
+            'status' => 'activo',
             'ci' => '1750474012',
             'ruc' => '1750474012000',
             'url_image' => '#',

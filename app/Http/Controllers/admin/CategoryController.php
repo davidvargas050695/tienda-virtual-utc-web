@@ -29,6 +29,12 @@ class CategoryController extends Controller
         return view('admin.categories.tableCategorie',compact('categories'))->render();
     }
 
+    public function getApiCategories()
+    {
+        $categories = Category::where('status','activo')->paginate(8);
+        return response()->json(['categories'=>$categories],200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

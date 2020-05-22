@@ -7,9 +7,12 @@
             <div class="ibox-head bg-info">
                 <div class="ibox-title text-white">Lista Productos</div>
                 <div class="ibox-tools">
-                <a class="text-white hover" href="{{route('create-product')}}">
-                <i class="fa fa-plus-square"></i>
-                    Añadir</a>
+                    @can('create product')
+                    <a class="text-white hover" href="{{route('create-product')}}">
+                        <i class="fa fa-plus-square"></i>
+                            Añadir</a>
+                    @endcan
+
                 </div>
             </div>
             <div class="ibox-body">

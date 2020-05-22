@@ -31,6 +31,13 @@ class ProductController extends Controller
         return view('admin.products.tableProducts',compact('products'))->render();
     }
 
+    public function getApiProducts()
+    {
+        $products = Product::where('status','activo')->paginate(8);
+
+        return response()->json(['products'=>$products],200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

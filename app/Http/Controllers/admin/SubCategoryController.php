@@ -32,6 +32,12 @@ class SubCategoryController extends Controller
 
         return view('admin.subcategories.tableCategorie',compact('subcategories'))->render();
     }
+    public function getApiCategories()
+    {
+        $subcategories = SubCategory::where('status','activo')->paginate(8);
+
+        return response()->json(['subcategories'=>$subcategories],200);
+    }
 
     /**
      * Show the form for creating a new resource.

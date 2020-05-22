@@ -52,3 +52,14 @@ Route::post('store-product','admin\ProductController@store')->name('store-produc
 Route::put('update-product/{id}','admin\ProductController@update')->name('update-product');
 Route::delete('delete-product/{id}','admin\ProductController@update')->name('delete-product');
 Route::put('deactivate-product','admin\ProductController@deactivate')->name('deactivate-product');
+
+
+//RUTAS PARA LOS USUARIOS
+Route::get('users','admin\UserController@getUsers')->name('users');
+Route::get('create-user','admin\UserController@create')->name('create-user');
+Route::get('get-user','admin\UserController@index')->name('get-user');
+Route::get('edit-user/{id}','admin\UserController@edit')->name('edit-user');
+Route::post('store-user','admin\UserController@store')->name('store-user');
+Route::put('update-user/{id}','admin\UserController@update')->name('update-user');
+Route::delete('delete-user/{id}','admin\UserController@update')->name('delete-user');
+Route::put('deactivate-user','admin\UserController@deactivate')->name('deactivate-user');

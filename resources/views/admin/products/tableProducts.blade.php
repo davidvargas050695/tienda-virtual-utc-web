@@ -29,29 +29,34 @@
                 @endif
             <td>
 
+                @can('update product')
                     <a href="{{route('edit-product',$product->id)}}"
-                        class="btn btn-default btn-xs"
-                        data-toggle="tooltip"
-                        data-original-title="Editar"
-                        data-id-product="{{$product->id}}">
-                        <i class="fa fa-pencil font-14"></i>
-                    </a>
-                    <a
-                        class="btn btn-default btn-xs btn-delete-product"
-                        data-toggle="tooltip"
+                                            class="btn btn-default btn-xs"
+                                            data-toggle="tooltip"
+                                            data-original-title="Editar"
+                                            data-id-product="{{$product->id}}">
+                                            <i class="fa fa-pencil font-14"></i>
+                                        </a>
+                @endcan
+                @can('delete product')
+                    <a class="btn btn-default btn-xs btn-delete-product"
+                    data-toggle="tooltip"
+                    @if ($product->status=="activo")
+                        data-original-title="Deshabilitar"
+                    @else
+                        data-original-title="Habilitar"
+                    @endif
+                    data-id-product="{{$product->id}}">
                         @if ($product->status=="activo")
-                            data-original-title="Deshabilitar"
+                        <i class="fa fa-close font-14 text-danger"></i>
                         @else
-                            data-original-title="Habilitar"
+                        <i class="fa fa-exchange font-14 text-success"></i>
                         @endif
-                        data-id-product="{{$product->id}}">
-                            @if ($product->status=="activo")
-                            <i class="fa fa-close font-14 text-danger"></i>
-                            @else
-                            <i class="fa fa-exchange font-14 text-success"></i>
-                            @endif
 
-                     </a>
+                </a>
+                @endcan
+
+
 
             </td>
         </tr>

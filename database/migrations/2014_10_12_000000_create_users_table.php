@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('url_image');
             $table->date('birth_date');
             $table->enum('gender',['masculino','femenino']);
+            $table->enum('status',['activo','inactivo']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

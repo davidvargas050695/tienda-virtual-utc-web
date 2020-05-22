@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="row">
+    @can('create subcategory')
     <div class="col-md-4">
         <div class="ibox">
             <div class="ibox-head bg-info">
@@ -16,6 +17,8 @@
             </div>
         </div>
     </div>
+    @endcan
+
 
     <div class="col-md-8">
         <div class="ibox">

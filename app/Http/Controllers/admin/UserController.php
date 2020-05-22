@@ -3,7 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserPost;
+use App\Http\Requests\UpdateUserPut;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -12,9 +18,19 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = trim($request->get('filter'));
+        $parameter = $request->parameter;
+        if ($query != '') {
+            $users = User::with('roles')
+                ->where($parameter, 'like', '%' . $query . '%')
+                ->paginate(10);
+            return view('admin.users.index', compact('users', 'parameter'));
+        } else {
+            $users = User::paginate(10);
+            return view('admin.users.index', compact('users', 'parameter'));
+        }
     }
 
     /**
@@ -24,7 +40,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::where('status','activo')
+        ->orderBy('name','ASC')
+        ->pluck('name','id');
+        return view('admin.users.create',compact('roles'));
     }
 
     /**
@@ -33,9 +52,27 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserPost $request)
     {
-        //
+        $validate = $request->validated();
+        $user = new User();
+        $user->ci = $request->ci;
+        $user->ruc = $request->ruc;
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->gender = $request->gender;
+        $user->status = $request->status;
+        $user->birth_date = $request->birth_date;
+        $user->url_image = $this->UploadImage($request);
+        $user->password = $this->generatePassword($request->ci);
+        $user->save();
+        $role = Role::findById($request->id_rol);
+        $user->assignRole($role);
+
+        return redirect()->route('get-user');
+
     }
 
     /**
@@ -57,7 +94,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        $roles = Role::where('status','activo')
+        ->orderBy('name','ASC')
+        ->pluck('name','id');
+        return view('admin.users.edit',compact('roles','user'));
     }
 
     /**
@@ -67,9 +108,32 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserPut $request, $id)
     {
-        //
+        $validate = $request->validated();
+        $user = User::find($id);
+        $user->ci = $request->ci;
+        $user->ruc = $request->ruc;
+        $user->name = $request->name;
+        $user->last_name = $request->last_name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->gender = $request->gender;
+        $user->status = $request->status;
+        $user->birth_date = $request->birth_date;
+        if($request->file('url_image')){
+            $user->url_image = $this->UploadImage($request);
+        }
+       // $user->password = $this->generatePassword($request->ci);
+        $user->save();
+
+        $roles_name = $user->getRoleNames();
+        $user->removeRole($roles_name[0]);
+
+        $role = Role::findById($request->id_rol);
+        $user->assignRole($role);
+
+        return redirect()->route('get-user');
     }
 
     /**
@@ -82,4 +146,49 @@ class UserController extends Controller
     {
         //
     }
+
+    public function deactivate(Request $request)
+    {
+        $user = User::find($request->id);
+        if($user->status =='inactivo'){
+            $user->status = 'activo';
+        }else{
+            $user->status = 'inactivo';
+        }
+        $user->save();
+        $users =User::all();
+        return view('admin.users.tableUsers')->with('users',$users)->render();
+    }
+
+    public function generatePassword($password)
+    {
+        $user_password = Hash::make($password);
+        return $user_password;
+    }
+    public function UploadImage(Request $request)
+    {
+        $url_file = "img/users/";
+        if ($request->file('url_image')) {
+            $image = $request->file('url_image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->save(public_path($url_file) . $name);
+            return $url_file . $name;
+        } else {
+            return "#";
+        }
+    }
+    public function getUsers()
+    {
+        $users = User::paginate(10);
+
+        return view('admin.users.tableUsers',compact('users'))->render();
+    }
+
+    public function getApiUsers()
+    {
+        $users = User::where('status','activo')->paginate(10);
+
+        return response()->json(['users'=>$users],200);
+    }
+
 }

@@ -19,16 +19,17 @@
                     <i class="fa fa-close text-warning"></i>
                 @endif
             <td>
-
+                @can('update category')
                     <a href="{{route('edit-category',$category->id)}}"
-                        class="btn btn-default btn-xs"
-                        data-toggle="tooltip"
-                        data-original-title="Editar"
-                        data-id-category="{{$category->id}}">
-                        <i class="fa fa-pencil font-14"></i>
-                    </a>
-                    <a
-                        class="btn btn-default btn-xs btn-delete-category"
+                                        class="btn btn-default btn-xs"
+                                        data-toggle="tooltip"
+                                        data-original-title="Editar"
+                                        data-id-category="{{$category->id}}">
+                                        <i class="fa fa-pencil font-14"></i>
+                     </a>
+                @endcan
+                @can('delete category')
+                    <a class="btn btn-default btn-xs btn-delete-category"
                         data-toggle="tooltip"
                         @if ($category->status=="activo")
                             data-original-title="Deshabilitar"
@@ -36,13 +37,15 @@
                             data-original-title="Habilitar"
                         @endif
                         data-id-category="{{$category->id}}">
-                            @if ($category->status=="activo")
-                            <i class="fa fa-close font-14 text-danger"></i>
-                            @else
-                            <i class="fa fa-exchange font-14 text-success"></i>
-                            @endif
+                        @if ($category->status=="activo")
+                        <i class="fa fa-close font-14 text-danger"></i>
+                        @else
+                        <i class="fa fa-exchange font-14 text-success"></i>
+                        @endif
 
-                     </a>
+                    </a>
+                @endcan
+
 
             </td>
         </tr>
