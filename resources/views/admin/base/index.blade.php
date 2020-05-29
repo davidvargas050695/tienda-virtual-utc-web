@@ -68,7 +68,7 @@
      <script type="text/javascript">
          $(function() {
              $('#example-table').DataTable({
-                 pageLength: 6,
+                 pageLength: 10,
                  //"ajax": './assets/demo/data/table_data.json',
                  /*"columns": [
                      { "data": "name" },

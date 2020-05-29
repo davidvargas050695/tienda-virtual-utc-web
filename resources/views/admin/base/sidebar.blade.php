@@ -74,6 +74,40 @@
 
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-shopping-bag"></i>
+                            <span class="nav-label">Empresas</span><i class="fa fa-angle-left arrow"></i></a>
+                        <ul class="nav-2-level collapse">
+
+                            @can('read user')
+                                <li>
+                                    <a href="{{route('get-merchants')}}">Lista</a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{route('get-request-merchants')}}">Solicitudes</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-car"></i>
+                            <span class="nav-label">Repartidores</span><i class="fa fa-angle-left arrow"></i></a>
+                        <ul class="nav-2-level collapse">
+
+                            @can('read user')
+                                <li>
+                                    <a href="{{route('get-deliverymen')}}">Lista</a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{route('get-request-deliverymen')}}">Solicitudes</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>

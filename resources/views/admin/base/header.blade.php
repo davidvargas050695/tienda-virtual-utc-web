@@ -1,11 +1,8 @@
  <!-- START HEADER-->
  <header class="header">
-    <div class="page-brand">
-        <a class="link" href="#">
-            <span class="brand">SALACHE
-                <span class="brand-tip">CAST</span>
-            </span>
-            <span class="brand-mini">AC</span>
+    <div class="page-brand text-center">
+        <a class="ml-5"  href="#">
+        <img  height="50" src="{{asset('assets/img/utc.png')}}" alt="">
         </a>
     </div>
     <div class="flexbox flex-1">

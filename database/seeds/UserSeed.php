@@ -73,6 +73,22 @@ class UserSeed extends Seeder
         $role->givePermissionTo('read category');
         $role->givePermissionTo('read subcategory');
 
+        ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
+        $role = Role::create(['name' => 'Empresario','status'=>'activo']);
+        //asignacion de los permisos al rol TECNICO SECUNDARIO
+        $role->givePermissionTo('read user');
+        $role->givePermissionTo('read product');
+        $role->givePermissionTo('read category');
+        $role->givePermissionTo('read subcategory');
+
+         ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
+         $role = Role::create(['name' => 'Repartidor','status'=>'activo']);
+         //asignacion de los permisos al rol TECNICO SECUNDARIO
+         $role->givePermissionTo('read user');
+         $role->givePermissionTo('read product');
+         $role->givePermissionTo('read category');
+         $role->givePermissionTo('read subcategory');
+
 
 
         /*

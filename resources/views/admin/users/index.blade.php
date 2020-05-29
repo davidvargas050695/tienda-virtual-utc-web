@@ -5,7 +5,7 @@
     <div class="col-md-12">
         <div class="ibox">
             <div class="ibox-head bg-info">
-                <div class="ibox-title text-white">Lista Usuarios</div>
+                <div class="ibox-title text-white">Lista Pedido</div>
                 <div class="ibox-tools">
                     @can('create user')
                     <a class="text-white hover" href="{{route('create-user')}}">

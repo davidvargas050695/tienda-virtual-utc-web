@@ -45,4 +45,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function merchants(){
+        return $this->hasMany(Merchant::class,'id_user');
+    }
+
+    public function deliveryman(){
+        return $this->hasMany(DeliveryMan::class,'id_user');
+    }
 }

@@ -17,6 +17,12 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('merchant', function () {
+    return view('forms.merchant');
+});
+Route::get('deliveryman', function () {
+    return view('forms.deliveryman');
+});
 
 Auth::routes();
 
@@ -63,3 +69,22 @@ Route::post('store-user','admin\UserController@store')->name('store-user');
 Route::put('update-user/{id}','admin\UserController@update')->name('update-user');
 Route::delete('delete-user/{id}','admin\UserController@update')->name('delete-user');
 Route::put('deactivate-user','admin\UserController@deactivate')->name('deactivate-user');
+
+
+//RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
+Route::get('create-merchant','RequestForm@createMerchant')->name('create-merchant');
+Route::get('create-deliveryman','RequestForm@createdeliveryMan')->name('create-deliveryman');
+Route::post('store-merchant','RequestForm@storeMarchant')->name('store-merchant');
+Route::post('store-deliveryman','RequestForm@storeDeliveryMan')->name('store-deliveryman');
+
+//RUTAS PARA LOS EMPRESARIOS
+Route::get('get-request-merchants','admin\MerchantController@getRequestMerchants')->name('get-request-merchants');
+Route::get('show-request-merchants/{id}','admin\MerchantController@showRequest')->name('show-request-merchants');
+Route::post('store-request-merchants/{id}','admin\MerchantController@store')->name('store-request-merchants');
+Route::get('get-merchants','admin\MerchantController@index')->name('get-merchants');
+
+//RUTAS PARA LOS REPARTIDORES
+Route::get('get-request-deliverymen','admin\DeliveryManController@getRequestDeliveryMen')->name('get-request-deliverymen');
+Route::get('show-request-delivery/{id}','admin\DeliveryManController@showRequest')->name('show-request-delivery');
+Route::post('store-request-delivery/{id}','admin\DeliveryManController@store')->name('store-request-delivery');
+Route::get('get-deliverymen','admin\DeliveryManController@index')->name('get-deliverymen');
