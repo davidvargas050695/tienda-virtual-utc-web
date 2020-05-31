@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\CompanyType;
 use App\DeliveryMan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDeliveryManValidatePost;
@@ -9,6 +10,7 @@ use App\RequestFormDeliveryMan;
 use Illuminate\Http\Request;
 
 use App\User;
+use App\VehicleType;
 use Exception;
 use Spatie\Permission\Models\Role;
 use Intervention\Image\Facades\Image;
@@ -26,7 +28,11 @@ class DeliveryManController extends Controller
     {
         $deliverymen = DeliveryMan::orderBy('created_at','ASC')->get();
 
-        return view('admin.deliveryman.index', compact('deliverymen'));
+        $vehicles = VehicleType::where('status', 'activo')
+        ->orderBy('name', 'ASC')
+        ->pluck('name', 'id');
+
+        return view('admin.deliveryman.index', compact('deliverymen','vehicles'));
     }
 
     /**

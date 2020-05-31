@@ -88,3 +88,24 @@ Route::get('get-request-deliverymen','admin\DeliveryManController@getRequestDeli
 Route::get('show-request-delivery/{id}','admin\DeliveryManController@showRequest')->name('show-request-delivery');
 Route::post('store-request-delivery/{id}','admin\DeliveryManController@store')->name('store-request-delivery');
 Route::get('get-deliverymen','admin\DeliveryManController@index')->name('get-deliverymen');
+
+
+
+//RUTAS PARA LAS TIPOS DE EMPRESAS
+Route::get('companies','admin\CompanyTypeController@getCompanies')->name('companies');
+Route::get('get-company','admin\CompanyTypeController@index')->name('get-company');
+Route::get('edit-company/{id}','admin\CompanyTypeController@edit')->name('edit-company');
+Route::post('store-company','admin\CompanyTypeController@store')->name('store-company');
+Route::put('update-company/{id}','admin\CompanyTypeController@update')->name('update-company');
+Route::delete('delete-company/{id}','admin\CompanyTypeController@update')->name('delete-company');
+Route::put('deactivate-company','admin\CompanyTypeController@deactivate')->name('deactivate-company');
+
+
+//RUTAS PARA LAS TIPOS DE VEHICULOS
+Route::get('vehicles','admin\VehicleTypeController@getVehicles')->name('vehicles');
+Route::get('get-vehicle','admin\VehicleTypeController@index')->name('get-vehicle');
+Route::get('edit-vehicle/{id}','admin\VehicleTypeController@edit')->name('edit-vehicle');
+Route::post('store-vehicle','admin\VehicleTypeController@store')->name('store-vehicle');
+Route::put('update-vehicle/{id}','admin\VehicleTypeController@update')->name('update-vehicle');
+Route::delete('delete-vehicle/{id}','admin\VehicleTypeController@update')->name('delete-vehicle');
+Route::put('deactivate-vehicle','admin\VehicleTypeController@deactivate')->name('deactivate-vehicle');

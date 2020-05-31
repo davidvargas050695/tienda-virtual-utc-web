@@ -248,13 +248,15 @@
                                 </div>
                              @enderror
                         </div>
+
+                        
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="input-group input-group-alternative mb-3">
                                   <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="ni ni-shop"></i></span>
                                   </div>
-                                  {!! Form::text('company_type', null, ['class'=>'form-control','placeholder'=>'Tipo de empresa']) !!}
+                                  {!! Form::select('company_type', $companies,null, ['class'=>'form-control']) !!}
                                 </div>
                               </div>
                               @error('company_type')

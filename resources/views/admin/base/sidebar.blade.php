@@ -108,6 +108,23 @@
 
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:;"><i class="sidebar-item-icon fa fa-folder"></i>
+                            <span class="nav-label">Formularios</span><i class="fa fa-angle-left arrow"></i></a>
+                        <ul class="nav-2-level collapse">
+
+
+                                <li>
+                                    <a href="{{route('get-company')}}">Empresas</a>
+                                </li>
+
+                            <li>
+                                <a href="{{route('get-vehicle')}}">Vehículos</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>

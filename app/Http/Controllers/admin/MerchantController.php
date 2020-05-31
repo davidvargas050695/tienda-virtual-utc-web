@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\CompanyType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMerchantPost;
 use App\Http\Requests\StoreMerchantValidatePost;
@@ -26,8 +27,11 @@ class MerchantController extends Controller
     {
 
         $merchants = Merchant::orderBy('created_at','ASC')->get();
+        $companies = CompanyType::where('status', 'activo')
+        ->orderBy('name', 'ASC')
+        ->pluck('name', 'id');
 
-        return view('admin.merchants.index', compact('merchants'));
+        return view('admin.merchants.index', compact('merchants','companies'));
     }
     public function getRequestMerchants()
     {

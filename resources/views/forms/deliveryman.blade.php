@@ -223,9 +223,9 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="ni ni-bus-front-12"></i></span>
                                   </div>
+                                  {!! Form::select('vehicle_type', $vehicles,null, ['class'=>'form-control']) !!}
 
-                                  {!! Form::text('vehicle_type', null, ['class'=>'form-control','placeholder'=>'Tipo de vehículo']) !!}
-                                </div>
+                                  </div>
                               </div>
                               @error('vehicle_type')
                               <div class="alert alert-danger alert-dismissible fade show" role="alert">

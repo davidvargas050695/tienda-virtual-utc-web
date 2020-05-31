@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\CompanyType;
 use App\Http\Requests\StoreDeliveryManPost;
 use App\Http\Requests\StoreMerchantPost;
 use App\RequestForm as AppRequestForm;
 use App\RequestFormDeliveryMan;
+use App\VehicleType;
 use Illuminate\Http\Request;
 
 class RequestForm extends Controller
@@ -15,14 +17,20 @@ class RequestForm extends Controller
 
     public function createMerchant()
     {
-       return view('forms.merchant');
+        $companies = CompanyType::where('status', 'activo')
+        ->orderBy('name', 'ASC')
+        ->pluck('name', 'id');
+       return view('forms.merchant',compact('companies'));
     }
 
     //store solicitud del repartidor
 
     public function createdeliveryMan()
     {
-       return view('forms.deliveryman');
+        $vehicles = VehicleType::where('status', 'activo')
+        ->orderBy('name', 'ASC')
+        ->pluck('name', 'id');
+       return view('forms.deliveryman',compact('vehicles'));
     }
     //create solicitud del repartidor
 
