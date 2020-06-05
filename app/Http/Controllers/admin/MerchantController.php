@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Category;
+use App\Company;
 use App\CompanyType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMerchantPost;
@@ -26,12 +28,12 @@ class MerchantController extends Controller
     public function index()
     {
 
-        $merchants = Merchant::orderBy('created_at','ASC')->get();
+        $merchants = Merchant::orderBy('created_at', 'ASC')->get();
         $companies = CompanyType::where('status', 'activo')
-        ->orderBy('name', 'ASC')
-        ->pluck('name', 'id');
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
 
-        return view('admin.merchants.index', compact('merchants','companies'));
+        return view('admin.merchants.index', compact('merchants', 'companies'));
     }
     public function getRequestMerchants()
     {
@@ -43,7 +45,10 @@ class MerchantController extends Controller
     public function showRequest($id)
     {
         $request = RequestForm::find($id);
-        return view('admin.merchants.showRequest', compact('request'));
+        $companies = CompanyType::where('status', 'activo')
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        return view('admin.merchants.showRequest', compact('request', 'companies'));
     }
 
     /**
@@ -64,60 +69,53 @@ class MerchantController extends Controller
      */
     public function store(StoreMerchantValidatePost $request, $id)
     {
+        $validate = $request->validated();
 
 
-        if ($request->status == "denegado") {
+        ///CONSULTAMOS SI EL SOLICITANTE YA TIENE UNA CUENTA EN EL SISTEMA
+        //SI EXISTE SOLO GUARDAMOS LOS DATOS DE LA EMPRESA
+        //CASO CONTRARIO GESTIONAMOS LAS TRES ENTIDADES USERS, MERCHANTS, Y COMPANIES
+
+
+        if ($request->status == "revision") {
             $request_merchant = RequestForm::find($id);
             $request_merchant->status = $request->status;
             $request_merchant->save();
             return redirect()->route('get-request-merchants');
-
-        } else if($request->status == "aprobado" ||$request->status == "revision"){
-            $validate = $request->validated();
+        } else if ($request->status == "aprobado") {
             try {
-
-                DB::beginTransaction();
-                $user = new User();
-                $user->ci = $request->ci;
-                $user->ruc = $request->company_ruc;
-                $user->name = $request->name;
-                $user->last_name = $request->last_name;
-                $user->username = $request->name. time();
-                $user->email = $request->email;
-                $user->gender = $request->gender;
-                $user->birth_date = $request->birth_date;
-                $user->url_image = $this->UploadImage($request);
-                $user->password = $this->generatePassword($request->ci);
-                $user->save();
-                $role = Role::findById(3);
-                $user->assignRole($role);
-
-                $merchant = new Merchant();
-                $merchant->company_name = $request->company_name;
-                $merchant->company_ruc = $request->company_ruc;
-                $merchant->company_address = $request->company_address;
-                $merchant->company_type = $request->company_type;
-                $merchant->company_description = $request->company_description;
-                $merchant->longitude = $request->longitude;
-                $merchant->latitude = $request->latitude;
-                $merchant->url_merchant = $this->UploadImageMerchant($request);
-
-                $merchant->id_user = $user->id;
-                $merchant->save();
-
-                $request_merchant = RequestForm::find($id);
-                $request_merchant->status = $request->status;
-                $request_merchant->save();
-
-
-                DB::commit();
-
-                return redirect()->route('get-merchants');
+                $query = Merchant::where('ci', $request->ci)->first();
+                if ($query) {
+                    DB::beginTransaction();
+                    ////CREAR EL REGISTRO DE LA COMPANIA
+                    $conpany =  $this->comapanyRegister($request, $query->id);
+                    ///ACTUALIZAMOS EL ESTADO DE LA PETICON DEL EMPRESARION EN EL ESTADO ELEJIDO
+                    $request_merchant = RequestForm::find($id);
+                    $request_merchant->status = $request->status;
+                    $request_merchant->save();
+                    DB::commit();
+                    return redirect()->route('get-merchants');
+                } else {
+                    DB::beginTransaction();
+                    ///CREA LA CUENTA EN LA TABLA USUARIOS
+                    $user = $this->userRegister($request);
+                    /// CREA EL REGISTRO DEL EMPRESARIO
+                    $merchant = $this->merchantRegister($request, $user->id);
+                    ////CREAR EL REGISTRO DE LA COMPANIA
+                    $company = $this->comapanyRegister($request, $merchant->id);
+                    ///ACTUALIZAMOS EL ESTADO DE LA PETICON DEL EMPRESARION EN EL ESTADO ELEJIDO
+                    $request_merchant = RequestForm::find($id);
+                    $request_merchant->status = $request->status;
+                    $request_merchant->save();
+                    DB::commit();
+                    return redirect()->route('get-merchants');
+                }
             } catch (Exception $e) {
                 DB::rollBack();
-                return redirect()->route('get-request-merchants');
+                return $e;
             }
-        }else{
+        } else {
+           $this->deleteRequestMerchant($id);
             return redirect()->route('get-request-merchants');
         }
     }
@@ -164,7 +162,7 @@ class MerchantController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 
 
@@ -196,5 +194,77 @@ class MerchantController extends Controller
         } else {
             return "#";
         }
+    }
+    public function createProfile($id)
+    {
+        $categories = Category::where('status', 'activo')
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        $companies = CompanyType::where('status', 'activo')
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        $merchant = Merchant::find($id);
+
+        ///RETIORNAMOS COMPANY VACIA PAR QUE RENDERICE EL FORMULARIO EDICION
+        $company = Company::all()->last();
+
+
+
+        return view('admin.merchants.create', compact('categories', 'companies', 'merchant','company'));
+    }
+    public function userRegister(Request $request)
+    {
+        ///CREA LA CUENTA EN LA TABLA USUARIOS
+        $user = new User();
+        $user->name = $request->name;
+        $user->username = $request->name . time();
+        $user->email = $request->email;
+        $user->password = $this->generatePassword($request->ci);
+        $user->url_image = $this->UploadImage($request);
+        $user->save();
+        ///asignamos el rol el empresario
+        $role = Role::findById(3);
+        $user->assignRole($role);
+        return $user;
+    }
+    public function merchantRegister(Request $request, $id)
+    {
+
+        /// CREA EL REGISTRO DEL EMPRESARIO
+        $merchant = new Merchant();
+        $merchant->ci = $request->ci;
+        $merchant->ruc = $request->company_ruc;
+        $merchant->name = $request->name;
+        $merchant->address = $request->address;
+        $merchant->phone = $request->phone;
+        $merchant->last_name = $request->last_name;
+        $merchant->email = $request->email;
+        $merchant->gender = $request->gender;
+        $merchant->birth_date = $request->birth_date;
+        $merchant->id_user = $id;
+        $merchant->save();
+        return $merchant;
+    }
+    public function comapanyRegister(Request $request, $id)
+    {
+        ////CREAR EL REGISTRO DE LA COMPANIA
+        $company = new  Company();
+        $company->company_name = $request->company_name;
+        $company->company_ruc = $request->company_ruc;
+        $company->company_address = $request->company_address;
+        $company->company_type = $request->company_type;
+        $company->company_phone = $request->company_phone;
+        $company->company_description = $request->company_description;
+        $company->longitude = $request->longitude;
+        $company->latitude = $request->latitude;
+        $company->url_merchant = $this->UploadImageMerchant($request);
+        $company->id_merchant = $id;
+        $company->save();
+        return $company;
+    }
+    public function deleteRequestMerchant($id)
+    {
+        $request_merchant = RequestForm::find($id);
+        $request_merchant->delete();
     }
 }

@@ -30,7 +30,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //RUTAS PARA LAS CATEGORIAS
-Route::get('categories','admin\CategoryController@getCategories')->name('categories');
+Route::get('categories/{id}','admin\CategoryController@getCategories')->name('categories');
 Route::get('get-category','admin\CategoryController@index')->name('get-category');
 Route::get('edit-category/{id}','admin\CategoryController@edit')->name('edit-category');
 Route::post('store-category','admin\CategoryController@store')->name('store-category');
@@ -50,7 +50,7 @@ Route::put('deactivate-subcategory','admin\SubCategoryController@deactivate')->n
 
 
 //RUTAS PARA LOS PRODUCTOS
-Route::get('products','admin\ProductController@getProducts')->name('products');
+Route::get('products/{id}','admin\ProductController@getProducts')->name('products');
 Route::get('create-product','admin\ProductController@create')->name('create-product');
 Route::get('get-product','admin\ProductController@index')->name('get-product');
 Route::get('edit-product/{id}','admin\ProductController@edit')->name('edit-product');
@@ -82,6 +82,13 @@ Route::get('get-request-merchants','admin\MerchantController@getRequestMerchants
 Route::get('show-request-merchants/{id}','admin\MerchantController@showRequest')->name('show-request-merchants');
 Route::post('store-request-merchants/{id}','admin\MerchantController@store')->name('store-request-merchants');
 Route::get('get-merchants','admin\MerchantController@index')->name('get-merchants');
+Route::get('create-merchant-profile/{id}','admin\MerchantController@createProfile')->name('create-merchant-profile');
+
+//RUTAS PARA LAS COMPANIAS
+Route::get('edit-company-merchant/{id}','admin\CompanyController@edit')->name('edit-company-merchant');
+Route::put('update-company-merchant/{id}','admin\CompanyController@update')->name('update-company-merchant');
+Route::get('get-table-companies/{id}','admin\CompanyController@getCompanies')->name('get-table-companies');
+Route::put('deactivate-company-merchant','admin\CompanyController@deactivate')->name('deactivate-company-merchant');
 
 //RUTAS PARA LOS REPARTIDORES
 Route::get('get-request-deliverymen','admin\DeliveryManController@getRequestDeliveryMen')->name('get-request-deliverymen');
@@ -99,6 +106,7 @@ Route::post('store-company','admin\CompanyTypeController@store')->name('store-co
 Route::put('update-company/{id}','admin\CompanyTypeController@update')->name('update-company');
 Route::delete('delete-company/{id}','admin\CompanyTypeController@update')->name('delete-company');
 Route::put('deactivate-company','admin\CompanyTypeController@deactivate')->name('deactivate-company');
+
 
 
 //RUTAS PARA LAS TIPOS DE VEHICULOS

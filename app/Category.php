@@ -8,7 +8,11 @@ class Category extends Model
 {
     protected $table = 'categories';
 
-    public function subcategories(){
-        return $this->hasMany(SubCategory::class, 'id_category');
+    public function products(){
+        return $this->hasMany(Product::class, 'id_category');
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'id_company');
     }
 }

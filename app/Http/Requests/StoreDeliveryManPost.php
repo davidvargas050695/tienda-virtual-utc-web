@@ -30,7 +30,7 @@ class StoreDeliveryManPost extends FormRequest
             'address' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:users',
-            'vehicle_type' => 'required|string',
+            'vehicle_type' => 'required',
             'vehicle_plate' => 'string|string',
             'vehicle_year' => 'required|numeric|digits:4',
             'vehicle_make' => 'required|string',
@@ -55,7 +55,7 @@ class StoreDeliveryManPost extends FormRequest
 
 
             'vehicle_type.required' => 'Este campo es obligatorio.',
-            'vehicle_type.string' => 'Los datos no son correctos.',
+
 
             'vehicle_plate.required' => 'Este campo es obligatorio.',
             'vehicle_plate.string' => 'Los datos no son correctos.',

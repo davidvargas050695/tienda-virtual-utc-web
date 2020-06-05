@@ -27,14 +27,14 @@ class StoreMerchantPost extends FormRequest
         return [
         'name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
         'last_name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-        'ci'=>'required|numeric|unique:users',
+        'ci'=>'required|numeric',
         'address'=>'required',
         'phone'=>'required',
-        'email'=>'required|email|unique:users',
+        'email'=>'required|email',
        'company_name'=>'required|string',
        'company_ruc'=>'numeric|digits:13',
        'company_address'=>'required',
-        'company_type'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+        'company_type'=>'required',
        'company_description'=>'required',
         ];
     }
@@ -65,7 +65,7 @@ class StoreMerchantPost extends FormRequest
 
 
             'company_type.required' => 'Este campo es obligatorio.',
-            'company_type.regex' => 'Este campo debe contener solo letras.',
+
             'company_description.required' => 'Este campo es obligatorio.',
 
 

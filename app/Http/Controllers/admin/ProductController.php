@@ -24,9 +24,10 @@ class ProductController extends Controller
         return view('admin.products.index',compact('products'));
     }
 
-    public function getProducts()
+    public function getProducts($id)
     {
-        $products = Product::paginate(8);
+        $products = Product::where('id_company',$id)->get();
+
 
         return view('admin.products.tableProducts',compact('products'))->render();
     }
@@ -58,22 +59,24 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreProductPost $request)
+    public function store(Request $request)
     {
         //id_sub_category,code,name,purchase_price,sale_price,stock,descripcion,status
-        $validate = $request->validated();
+       // $validate = $request->validated();
         $product = new Product();
         $product->code = $request->code;
         $product->name = $request->name;
-        $product->purchase_price = $request->purchase_price;
-        $product->sale_price = $request->sale_price;
+        $product->purchase_price = 0;
+        $product->sale_price = $request->price;
         $product->stock = $request->stock;
         $product->description = $request->description;
-        $product->status = $request->status;
-        $product->id_sub_category = $request->id_sub_category;
+        //$product->status = $request->status;
+        $product->id_category = $request->id_category;
+        $product->id_company = $request->id;
         $product->url_image = $this->UploadImage($request);
         $product->save();
-        return redirect()->route('get-product');
+        return $product;
+       // return redirect()->route('get-product');
     }
 
     /**

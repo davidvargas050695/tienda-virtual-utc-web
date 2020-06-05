@@ -16,10 +16,10 @@
     <tbody>
         @foreach ($merchants as $merchant)
         <tr>
-            <td>{{$merchant->user->ci}}</td>
-            <td>{{$merchant->user->ruc}}</td>
-            <td>{{$merchant->user->last_name}} {{$merchant->user->name}}</td>
-            <td>{{$merchant->user->email}}</td>
+            <td>{{$merchant->ci}}</td>
+            <td>{{$merchant->ruc}}</td>
+            <td>{{$merchant->last_name}} {{$merchant->name}}</td>
+            <td>{{$merchant->email}}</td>
             <td>{{$merchant->phone}}</td>
             <td>{{$merchant->company_name}}</td>
             <td>{{\Carbon\Carbon::parse($merchant->updated_at)->diffForhumans()}}</td>
@@ -33,10 +33,10 @@
             <td>
 
                 @can('update user')
-            <a href="{{route('show-request-merchants',$merchant->id)}}" class="btn btn-default btn-xs"
-                    title="Ver petición"
-                    data-toggle="tooltip">
-                        <i class="fa fa-eye font-14 text-primary"></i>
+                    <a href="{{route('create-merchant-profile',$merchant->id)}}" class="btn btn-default btn-xs"
+                            title="Ver petición"
+                            data-toggle="tooltip">
+                                <i class="fa fa-eye font-14 text-primary"></i>
                     </a>
                 @endcan
             </td>

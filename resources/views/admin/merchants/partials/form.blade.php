@@ -66,17 +66,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-lg-6">
-        <div class="form-group">
-            {!! Form::label('id_rol', 'Rol para usuario') !!}
-            {!! Form::select('id_rol', $roles,null, ['class'=>'form-control']) !!}
-            @error('id_rol')
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ $message }}.
-            </div>
-            @enderror
-        </div>
-    </div>
+
 
     <div class="col-lg-6">
         <div class="form-group">

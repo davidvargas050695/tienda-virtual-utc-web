@@ -11,4 +11,8 @@ class Merchant extends Model
     public function user(){
         return $this->belongsTo(User::class,'id_user');
     }
+    public function companies()
+    {
+     return $this->hasMany(Company::class,'id_merchant');
+    }
 }

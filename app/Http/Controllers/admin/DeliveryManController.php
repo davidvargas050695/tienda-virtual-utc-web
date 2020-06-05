@@ -166,7 +166,10 @@ class DeliveryManController extends Controller
     public function showRequest($id)
     {
         $request = RequestFormDeliveryMan::find($id);
-        return view('admin.deliveryman.showRequest', compact('request'));
+        $vehicles = VehicleType::where('status', 'activo')
+        ->orderBy('name', 'ASC')
+        ->pluck('name', 'id');
+        return view('admin.deliveryman.showRequest', compact('request','vehicles'));
     }
     public function generatePassword($password)
     {

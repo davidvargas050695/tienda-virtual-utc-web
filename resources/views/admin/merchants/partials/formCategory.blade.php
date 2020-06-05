@@ -1,14 +1,10 @@
+{!! Form::open(['url' => 'store-user','files' => true]) !!}
+
 <div class="row">
     <div class="col-lg-12">
-        {!! Form::hidden('id_user',null, ['id'=>'id_user_category','class'=>'form-control']) !!}
-        @error('id_user')
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {{ $message }}.
-            </div>
-        @enderror
         <div class="form-group">
             {!! Form::label('name', 'Nombre') !!}
-            {!! Form::text('name',null, ['id'=>'name_cat','class'=>'form-control']) !!}
+            {!! Form::text('name',null, ['class'=>'form-control']) !!}
             @error('name')
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             {{ $message }}.
@@ -19,7 +15,7 @@
     <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('description', 'Descripción') !!}
-            {!! Form::text('description',null, ['id'=>'description_cat','class'=>'form-control']) !!}
+            {!! Form::text('description',null, ['class'=>'form-control']) !!}
             @error('description')
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ $message }}.
@@ -29,7 +25,6 @@
     </div>
 </div>
 <div class="row">
-    {{-----
     <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('status', 'Estado') !!}
@@ -53,12 +48,23 @@
             @enderror
         </div>
     </div>
-    -----}}
     <div class="col-lg-12">
         <div class="form-group">
-           {!! Form::submit('Guardar', ['class'=>'btn btn-success btn-save-category']) !!}
+           {!! Form::submit('Guardar', ['class'=>'btn btn-success']) !!}
         </div>
     </div>
 </div>
+
+
+
+{!! Form::close() !!}
+
+
+
+
+
+
+
+
 
 

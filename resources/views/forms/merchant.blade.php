@@ -96,6 +96,18 @@
                   <h5>Formulario de solicitud para empresas</h5>
                 </div>
               </div>
+                @if (session('status'))
+                    @if (session('status')!="error")
+                        <div class="alert alert-success mr-3 ml-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('status') }}
+                            </div>
+                    @else
+                    <div class="alert alert-danger mr-3 ml-3">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Se presentó un inconveniente con esta petición.  Por favor contacta con el administrador
+                        </div>
+
+                    @endif
+                @endif
               <div class="card-body ">
                 {!! Form::open(['url' => 'store-merchant','files' => true]) !!}
                     <div class="row">
@@ -249,7 +261,7 @@
                              @enderror
                         </div>
 
-                        
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="input-group input-group-alternative mb-3">

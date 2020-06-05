@@ -1,3 +1,8 @@
+
+@if (count($categories)>0)
+
+
+
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
@@ -36,6 +41,7 @@
                         @else
                             data-original-title="Habilitar"
                         @endif
+                        data-id-company="{{$category->company->id}}"
                         data-id-category="{{$category->id}}">
                         @if ($category->status=="activo")
                         <i class="fa fa-close font-14 text-danger"></i>
@@ -53,3 +59,10 @@
     </tbody>
 </table>
 
+@else
+<div class="text-center">
+    <img width="200" height="160" src="{{asset('assets/img/data.png')}}" alt="">
+    <h6>No hay datos para mostrar</h6>
+</div>
+
+@endif

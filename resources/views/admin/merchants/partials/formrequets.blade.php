@@ -199,9 +199,8 @@
         <div class="form-group">
             <small class="text-muted" >Tipo de empresa</small>
             <div class="input-group input-group-alternative mb-3">
-
-              {!! Form::text('company_type', null, ['class'=>'form-control','placeholder'=>'Tipo de empresa']) !!}
-            </div>
+                {!! Form::select('company_type', $companies,null, ['class'=>'form-control']) !!}
+               </div>
           </div>
           @error('company_type')
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -237,6 +236,7 @@
             </div>
          @enderror
     </div>
+
     <div class="col-md-3">
         <div class="form-group">
             <small class="text-muted" >Longitud</small>
@@ -246,6 +246,20 @@
             </div>
           </div>
           @error('longitude')
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ $message }}.
+            </div>
+         @enderror
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <small class="text-muted" >Télefono de la empresa</small>
+            <div class="input-group input-group-alternative mb-3">
+
+              {!! Form::text('company_phone', null, ['class'=>'form-control','placeholder'=>'Télefono de la empresa']) !!}
+            </div>
+          </div>
+          @error('company_phone')
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ $message }}.
             </div>

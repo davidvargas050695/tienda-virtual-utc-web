@@ -92,20 +92,15 @@ class UserSeed extends Seeder
 
 
         /*
-            'name','last_name','username','birth_name','gender','ci', 'ruc','url_image', 'email','password',
+            'name','username','url_image', 'email','password',
         */
 
         ///crearmos el usario por defecto
         $user_password = Hash::make('root1234');
         $user = User::create([
             'name' => 'David',
-            'last_name' => 'Vargas',
             'username' => 'admin',
-            'birth_date' => '2020/12/12',
-            'gender' => 'masculino',
             'status' => 'activo',
-            'ci' => '1750474012',
-            'ruc' => '1750474012000',
             'url_image' => '#',
             'email' => 'admin@gmail.com',
             'password' => $user_password]);

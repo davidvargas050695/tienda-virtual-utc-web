@@ -20,4 +20,3 @@
 </div>
 @endsection
 
-@include('admin.merchants.script')

@@ -1,4 +1,5 @@
-<table class="table table-striped table-bordered table-hover">
+@if(count($products)>0)
+<table class="table table-striped table-bordered table-hover" >
     <thead>
         <tr>
             <th>Foto</th>
@@ -19,7 +20,7 @@
             <td>{{$product->name}}</td>
             <td>{{$product->description}}</td>
             <td>{{$product->sale_price}}</td>
-            <td>{{$product->subcategory->name}}</td>
+            <td>{{$product->category->name}}</td>
 
             <td>
                 @if ($product->status =='activo')
@@ -64,3 +65,10 @@
     </tbody>
 </table>
 
+@else
+<div class="text-center">
+    <img width="200" height="160" src="{{asset('assets/img/data.png')}}" alt="">
+    <h6>No hay datos para mostrar</h6>
+</div>
+
+@endif

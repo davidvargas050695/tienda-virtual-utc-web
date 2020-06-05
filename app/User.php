@@ -53,4 +53,5 @@ class User extends Authenticatable
     public function deliveryman(){
         return $this->hasMany(DeliveryMan::class,'id_user');
     }
+
 }

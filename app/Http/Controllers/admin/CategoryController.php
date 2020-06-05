@@ -22,9 +22,10 @@ class CategoryController extends Controller
         return view('admin.categories.index',compact('categories'));
     }
 
-    public function getCategories()
+    public function getCategories($id)
     {
-        $categories = Category::paginate(8);
+        $categories = Category::where('id_company',$id)->get();
+
 
         return view('admin.categories.tableCategorie',compact('categories'))->render();
     }
@@ -51,15 +52,16 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryPost $request)
+    public function store(Request $request)
     {
-        $validate = $request->validated();
+        //$validate = $request->validated();
         $category = new Category();
         $category->name = $request->name;
         $category->description = $request->description;
-        $category->status = $request->status;
+        $category->id_company = $request->id;
         $category->save();
-        return redirect()->route('get-category');
+        return $category;
+        //return redirect()->route('get-category');
     }
 
     /**

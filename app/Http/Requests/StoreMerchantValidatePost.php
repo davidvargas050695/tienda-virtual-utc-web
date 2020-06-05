@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMerchantValidatePost extends FormRequest
 {
@@ -24,22 +25,22 @@ class StoreMerchantValidatePost extends FormRequest
     public function rules()
     {
         return [
-            'ci' => 'required|numeric|unique:users|digits:10',
+            'ci' => 'required|numeric|digits:10',
             'ruc' => 'numeric|unique:users|digits:13',
             'name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
-
             'last_name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
             'birth_date'=>'date',
             'gender'=>'required',
-            'email'=>'required|email|unique:users|max:255',
+            'email'=>['required','email','max:255'],
             'status'=>'required',
-
+            'address'=>'required',
+            'phone'=>'required',
             'url_image'=>'mimes:png,jpeg,jpg',
 
-            'company_name'=>'required|string|unique:merchants',
-            'company_ruc'=>'numeric|digits:13|unique:merchants',
+            'company_name'=>'required|string|unique:companies',
+            'company_ruc'=>'numeric|digits:13|unique:companies',
             'company_address'=>'required',
-            'company_type'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+            'company_type'=>'required',
             //'latitude'=>'string',
             //'longitude'=>'string',
             'url_merchant'=>'mimes:png,jpeg,jpg',
@@ -78,6 +79,8 @@ class StoreMerchantValidatePost extends FormRequest
             'id_rol.required'=>'Este campo es obligatorio.',
 
             'url_image.mimes'=>'Este formato de la imagen no es valído.',
+            'address.required' => 'Este campo es obligatorio.',
+            'phone.required' => 'Este campo es obligatorio.',
 
 
 
