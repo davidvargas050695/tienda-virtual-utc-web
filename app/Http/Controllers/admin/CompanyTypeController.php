@@ -17,30 +17,42 @@ class CompanyTypeController extends Controller
      */
     public function index()
     {
-        $companies = CompanyType::orderBy('name','ASC')->get();
+        $companies = CompanyType::orderBy('name', 'ASC')->get();
 
-        return view('admin.companytype.index',compact('companies'));
+        return view('admin.companytype.index', compact('companies'));
     }
+
     public function getCompanies()
     {
-        $companies = CompanyType::orderBy('name','ASC')->get();
+        $companies = CompanyType::orderBy('name', 'ASC')->get();
 
-        return view('admin.companytype.table',compact('companies'))->render();
+        return view('admin.companytype.table', compact('companies'))->render();
 
     }
+
+    public function getApiCompanies()
+    {
+        $companies_type = CompanyType::where('status','activo')->get();
+
+        return response()->json([
+            'companies_type'=>$companies_type
+        ]);
+
+    }
+
     public function deactivate(Request $request)
     {
-        try{
+        try {
             $company = CompanyType::find($request->id);
-            if($company->status =='inactivo'){
+            if ($company->status == 'inactivo') {
                 $company->status = 'activo';
-            }else{
+            } else {
                 $company->status = 'inactivo';
             }
             $company->save();
-            return response()->json(['status'=>'success'],200);
-        }catch(Exception $e){
-            return response()->json(['error'=>$e],422);
+            return response()->json(['status' => 'success'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e], 422);
         }
 
     }
@@ -58,7 +70,7 @@ class CompanyTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -66,9 +78,9 @@ class CompanyTypeController extends Controller
         //Reglas de validacion de los campos del formulario  que vienen por POST
         $request->validate([
             //REGLAS DE VALIDACION
-            'name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|unique:company_types',
-            'description'=>'required|string',
-            'status'=>'required'
+            'name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|unique:company_types',
+            'description' => 'required|string',
+            'status' => 'required'
 
         ], [
             //MENSAJES CUANDO NO SE CUMPLE LA VALIDACION
@@ -90,7 +102,7 @@ class CompanyTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -101,21 +113,21 @@ class CompanyTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $company = CompanyType::find($id);
-        $companies = CompanyType::orderBy('name','ASC')->get();
-        return view('admin.companytype.edit',compact('company','companies'));
+        $companies = CompanyType::orderBy('name', 'ASC')->get();
+        return view('admin.companytype.edit', compact('company', 'companies'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -124,9 +136,9 @@ class CompanyTypeController extends Controller
         //Reglas de validacion de los campos del formulario  que vienen por POST
         $request->validate([
             //REGLAS DE VALIDACION
-            'name'=>['required','regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',Rule::unique('company_types')->ignore($id)],
-            'description'=>'required|string',
-            'status'=>'required'
+            'name' => ['required', 'regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u', Rule::unique('company_types')->ignore($id)],
+            'description' => 'required|string',
+            'status' => 'required'
 
         ], [
             //MENSAJES CUANDO NO SE CUMPLE LA VALIDACION
@@ -148,18 +160,18 @@ class CompanyTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        try{
+        try {
             $company = CompanyType::find($id);
 
             $company->delete();
-            return response()->json(['status'=>'success'],200);
-        }catch(Exception $e){
-            return response()->json(['error'=>$e],422);
+            return response()->json(['status' => 'success'], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e], 422);
         }
     }
 }

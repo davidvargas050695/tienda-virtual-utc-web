@@ -58,6 +58,7 @@ Route::post('store-product','admin\ProductController@store')->name('store-produc
 Route::put('update-product/{id}','admin\ProductController@update')->name('update-product');
 Route::delete('delete-product/{id}','admin\ProductController@update')->name('delete-product');
 Route::put('deactivate-product','admin\ProductController@deactivate')->name('deactivate-product');
+Route::get('get-form-product/{id}','admin\ProductController@getForm')->name('get-form-product');
 
 
 //RUTAS PARA LOS USUARIOS

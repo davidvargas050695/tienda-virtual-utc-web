@@ -6,8 +6,6 @@
         <div class="ibox">
             <div class="ibox-head bg-info">
                 <div class="ibox-title text-white">Listado de empresas</div>
-
-
             </div>
             <div class="ibox-body">
 

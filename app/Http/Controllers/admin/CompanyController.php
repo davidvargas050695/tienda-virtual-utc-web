@@ -22,6 +22,11 @@ class CompanyController extends Controller
     {
         //
     }
+    public function getApiCompanies($id){
+        $companies = Company::where('status','activo')->where('company_type',$id)->get(['company_name','id','url_merchant']);
+        return response()->json(['companies'=>$companies],200);
+
+    }
 
     /**
      * Show the form for creating a new resource.

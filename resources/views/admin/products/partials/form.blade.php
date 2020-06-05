@@ -1,17 +1,7 @@
 <div class="row">
-    {!! Form::hidden('id_company',null, ['id'=>'id_company_product','class'=>'form-control']) !!}
-    <div class="col-lg-6">
-        <div class="form-group">
-            {!! Form::label('code', 'Código') !!}
-            {!! Form::text('code',null, ['id'=>'code_product','class'=>'form-control']) !!}
-            @error('code')
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            {{ $message }}.
-                        </div>
-             @enderror
-        </div>
-    </div>
-    <div class="col-lg-6">
+    {!! Form::hidden('id_company',$id_company, ['id'=>'id_company_product','class'=>'form-control']) !!}
+
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('name', 'Nombre') !!}
             {!! Form::text('name',null, ['id'=>'name_product','class'=>'form-control']) !!}
@@ -22,7 +12,7 @@
              @enderror
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('id_sub_category', 'Categoría') !!}
             {!! Form::select('id_category', $categories,null, [ 'id'=>'id_category_product','class'=>'form-control']) !!}
@@ -34,7 +24,7 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('description', 'Descripción') !!}
             {!! Form::text('description',null, ['id'=>'description_product','class'=>'form-control']) !!}
@@ -45,7 +35,7 @@
             @enderror
         </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('url_image', 'Fotografía (jpeg, png, jpg)') !!}
             {!! Form::file('url_image', ['id'=>'img_product','class'=>'form-control']) !!}
@@ -57,7 +47,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('sale_price', 'Precio de venta') !!}
             {!! Form::text('sale_price',null, ['id'=>'price_product','class'=>'form-control']) !!}
@@ -69,7 +59,7 @@
         </div>
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-6">
         <div class="form-group">
             {!! Form::label('stock', 'Cantidad') !!}
             {!! Form::number('stock',null, ['id'=>'stock_product','class'=>'form-control']) !!}

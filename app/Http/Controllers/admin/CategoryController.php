@@ -30,9 +30,9 @@ class CategoryController extends Controller
         return view('admin.categories.tableCategorie',compact('categories'))->render();
     }
 
-    public function getApiCategories()
+    public function getApiCategories($id)
     {
-        $categories = Category::where('status','activo')->paginate(8);
+        $categories = Category::where('status','activo')->where('id_company',$id)->get(['name','id']);
         return response()->json(['categories'=>$categories],200);
     }
 

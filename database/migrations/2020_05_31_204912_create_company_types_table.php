@@ -18,6 +18,7 @@ class CreateCompanyTypesTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->enum('status',['activo','inactivo']);
+            $table->string('url_image')->nullable();
             $table->timestamps();
         });
     }

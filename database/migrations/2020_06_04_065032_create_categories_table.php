@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->enum('status',['activo','inactivo'])->default('activo');
+            $table->string('url_image')->nullable();
             $table->unsignedBigInteger('id_company');
             $table->timestamps();
             $table->foreign('id_company')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');

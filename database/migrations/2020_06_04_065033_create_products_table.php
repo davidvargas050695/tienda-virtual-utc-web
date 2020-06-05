@@ -17,7 +17,6 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_company');
             $table->unsignedBigInteger('id_category');
-            $table->string('code')->unique()->nullable();
             $table->string('name')->unique();
             $table->decimal('sale_price', 11, 2);
             $table->integer('stock');

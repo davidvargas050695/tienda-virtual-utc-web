@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductPost;
 use App\Http\Requests\UpdateProductPut;
 use App\Product;
-use App\SubCategory;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -27,18 +27,37 @@ class ProductController extends Controller
     public function getProducts($id)
     {
         $products = Product::where('id_company',$id)->get();
-
-
         return view('admin.products.tableProducts',compact('products'))->render();
     }
 
-    public function getApiProducts()
+    public function getApiProducts($id)
     {
-        $products = Product::where('status','activo')->paginate(8);
+        $products = Product::where('status','activo')->where('id_category',$id)->get();
 
         return response()->json(['products'=>$products],200);
     }
 
+        /*
+        class Venta(){
+            id_cliente;
+            fecha;
+            direccion;
+            telefono;
+            productos arrayList<DetalleVenta>;
+            valor_total;
+
+    }
+    class DetalleVenta(){
+            id_venta;
+            id_producto;
+            descripcion;
+            nombre_producto;
+            cantdad;
+            precio unitario;
+            precio total;
+
+    }
+    */
     /**
      * Show the form for creating a new resource.
      *
@@ -64,9 +83,7 @@ class ProductController extends Controller
         //id_sub_category,code,name,purchase_price,sale_price,stock,descripcion,status
        // $validate = $request->validated();
         $product = new Product();
-        $product->code = $request->code;
         $product->name = $request->name;
-        $product->purchase_price = 0;
         $product->sale_price = $request->price;
         $product->stock = $request->stock;
         $product->description = $request->description;
@@ -107,6 +124,18 @@ class ProductController extends Controller
 
 
         return view('admin.products.edit',compact('product','subcategories'));
+    }
+
+    public function getForm($id)
+    {
+        $categories = Category::where('status','activo')
+            ->where('id_company',$id)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        $id_company = $id;
+
+        return view('admin.products.partials.form',compact('categories','id_company'))->render();
+
     }
 
     /**
@@ -157,8 +186,8 @@ class ProductController extends Controller
             $product->status = 'inactivo';
         }
         $product->save();
-        $products =Product::all();
-        return view('admin.products.tableProducts')->with('products',$products)->render();
+
+        return $product;
     }
     public function UploadImage(Request $request)
     {

@@ -90,7 +90,7 @@
 
     <div class="col-lg-12">
    <div class="form-control text-center">
-        <img class="img-responsive" src="http://127.0.0.1/salache/public/{{$company->url_merchant}}" alt="Imagen vacía">
+        <img class="img-responsive" src="../{{$company->url_merchant}}" alt="Imagen vacía">
    </div>
         <div class="form-group">
             <small class="text-muted" >Fotografía empresa</small>

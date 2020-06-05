@@ -42,6 +42,8 @@ class MerchantController extends Controller
         $parameter = '';
         return view('admin.merchants.list_request', compact('request_merchants', 'parameter'));
     }
+
+
     public function showRequest($id)
     {
         $request = RequestForm::find($id);

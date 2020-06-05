@@ -3,7 +3,7 @@
     <thead>
         <tr>
             <th>Foto</th>
-            <th>Código</th>
+
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Precio venta</th>
@@ -16,7 +16,7 @@
         @foreach ($products as $product)
         <tr>
             <td><img width="40" height="40" src="{{$product->url_image}}" alt="" class="img-responsive"></td>
-            <td>{{$product->code}}</td>
+
             <td>{{$product->name}}</td>
             <td>{{$product->description}}</td>
             <td>{{$product->sale_price}}</td>
@@ -47,6 +47,7 @@
                     @else
                         data-original-title="Habilitar"
                     @endif
+                       data-id-company="{{$product->company->id}}"
                     data-id-product="{{$product->id}}">
                         @if ($product->status=="activo")
                         <i class="fa fa-close font-14 text-danger"></i>
