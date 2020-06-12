@@ -1,12 +1,11 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
-            <th>Foto</th>
-            <th>CI</th>
-            <th>RUC</th>
-            <th>Nombres y Apellidos</th>
+            <th>Imagen</th>
+            <th>Usuario</th>
+            <th>Nombres</th>
+
             <th>Email</th>
-            <th>Genéro</th>
             <th>Creado</th>
             <th>Estado</th>
             <th>Acciones</th>
@@ -16,11 +15,9 @@
         @foreach ($users as $user)
         <tr>
             <td><img width="40" height="40" src="{{$user->url_image}}" alt="" class="img-responsive"></td>
-            <td>{{$user->ci}}</td>
-            <td>{{$user->ruc}}</td>
-            <td>{{$user->last_name}} {{$user->name}}</td>
+            <td>{{$user->username}}</td>
+            <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
-            <td>{{$user->gender}}</td>
             <td>{{\Carbon\Carbon::parse($user->created_at)->diffForhumans()}}</td>
 
             <td>
@@ -30,7 +27,7 @@
                     <i class="fa fa-close text-warning"></i>
                 @endif
             <td>
-                @can('update user')
+                @can('modificar usuario')
                 <a href="{{route('edit-user',$user->id)}}"
                     class="btn btn-default btn-xs"
                     data-toggle="tooltip"
@@ -39,7 +36,7 @@
                     <i class="fa fa-pencil font-14"></i>
                 </a>
                 @endcan
-                @can('update user')
+                @can('eliminar usuario')
                     <a class="btn btn-default btn-xs btn-delete-user"
                     data-toggle="tooltip"
                     @if ($user->status=="activo")

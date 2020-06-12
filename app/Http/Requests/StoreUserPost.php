@@ -24,13 +24,9 @@ class StoreUserPost extends FormRequest
     public function rules()
     {
         return [
-            'ci' => 'required|numeric|unique:users|digits:10',
-            'ruc' => 'numeric|unique:users|digits:13',
+
             'name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
             'username'=>'required|unique:users',
-            'last_name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
-            'birth_date'=>'date',
-            'gender'=>'required',
             'email'=>'required|email|unique:users|max:255',
             'status'=>'required',
             'id_rol'=>'required',

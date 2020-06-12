@@ -18,77 +18,99 @@ class UserSeed extends Seeder
         // resetea el cache el los roles y permisos
         app()['cache']->forget('spatie.permission.cache');
 
+
+        /// crea los permisos para el crud del roles
+        ///
+        Permission::create(['name' => 'crear rol', 'state' => 1, 'modulo' => 'Roles', 'description' => 'Permite crear un rol']);
+        Permission::create(['name' => 'leer rol', 'state' => 1, 'modulo' => 'Roles', 'description' => 'Permite ver un rol']);
+        Permission::create(['name' => 'modificar rol', 'state' => 1, 'modulo' => 'Roles', 'description' => 'Permite modificar un rol']);
+        Permission::create(['name' => 'eliminar rol', 'state' => 1, 'modulo' => 'Roles', 'description' => 'Permite eliminar un rol']);
+
         /// crea los permisos para el crud del usuario
         ///
-        Permission::create(['name' => 'create user']);
-        Permission::create(['name' => 'read user']);
-        Permission::create(['name' => 'update user']);
-        Permission::create(['name' => 'delete user']);
+        Permission::create(['name' => 'crear usuario', 'state' => 1, 'modulo' => 'Usuarios', 'description' => 'Permite crear un usuario']);
+        Permission::create(['name' => 'leer usuario', 'state' => 1, 'modulo' => 'Usuarios', 'description' => 'Permite ver un usuario']);
+        Permission::create(['name' => 'modificar usuario', 'state' => 1, 'modulo' => 'Usuarios', 'description' => 'Permite modificar un usuario']);
+        Permission::create(['name' => 'eliminar usuario', 'state' => 1, 'modulo' => 'Usuarios', 'description' => 'Permite eliminar un usuario']);
+
 
         /// crea los permisos para el crud delas categorias
 
-        Permission::create(['name' => 'create category']);
-        Permission::create(['name' => 'read category']);
-        Permission::create(['name' => 'update category']);
-        Permission::create(['name' => 'delete category']);
+        Permission::create(['name' => 'crear categoria', 'state' => 1, 'modulo' => 'Categorías', 'description' => 'Permite crear una categoría']);
+        Permission::create(['name' => 'leer categoria', 'state' => 1, 'modulo' => 'Categorías', 'description' => 'Permite leer una categoría']);
+        Permission::create(['name' => 'modificar categoria', 'state' => 1, 'modulo' => 'Categorías', 'description' => 'Permite modificar una categoría']);
+        Permission::create(['name' => 'eliminar categoria', 'state' => 1, 'modulo' => 'Categorías', 'description' => 'Permite eliminar una categoría']);
 
-        /// crea los permisos para el crud de la subcategoria
-
-        Permission::create(['name' => 'create subcategory']);
-        Permission::create(['name' => 'read subcategory']);
-        Permission::create(['name' => 'update subcategory']);
-        Permission::create(['name' => 'delete subcategory']);
 
         /// crea los permisos para el crud de los productos
-        Permission::create(['name' => 'create product']);
-        Permission::create(['name' => 'read product']);
-        Permission::create(['name' => 'update product']);
-        Permission::create(['name' => 'delete product']);
+        Permission::create(['name' => 'crear producto', 'state' => 1, 'modulo' => 'Productos', 'description' => 'Permite crear un producto']);
+        Permission::create(['name' => 'leer producto', 'state' => 1, 'modulo' => 'Productos', 'description' => 'Permite leer un producto']);
+        Permission::create(['name' => 'modificar producto', 'state' => 1, 'modulo' => 'Productos', 'description' => 'Permite modificar un producto']);
+        Permission::create(['name' => 'eliminar producto', 'state' => 1, 'modulo' => 'Productos', 'description' => 'Permite eliminar un producto']);
 
         //permisos para los clientes
-        Permission::create(['name' => 'create customer']);
-        Permission::create(['name' => 'read customer']);
-        Permission::create(['name' => 'update customer']);
-        Permission::create(['name' => 'delete customer']);
+        Permission::create(['name' => 'crear clientes', 'state' => 1, 'modulo' => 'Clientes', 'description' => 'Permite crear un cliente']);
+        Permission::create(['name' => 'leer clientes', 'state' => 1, 'modulo' => 'Clientes', 'description' => 'Permite leer un cliente']);
+        Permission::create(['name' => 'modificar clientes', 'state' => 1, 'modulo' => 'Clientes', 'description' => 'Permite modificar un cliente']);
+        Permission::create(['name' => 'eliminar clientes', 'state' => 1, 'modulo' => 'Clientes', 'description' => 'Permite eliminar un cliente']);
 
         //permisos para las ordenes o pedidos
 
-        Permission::create(['name' => 'create order']);
-        Permission::create(['name' => 'read order']);
-        Permission::create(['name' => 'update order']);
-        Permission::create(['name' => 'delete order']);
+        Permission::create(['name' => 'crear orden', 'state' => 1, 'modulo' => 'Ordenes', 'description' => 'Permite crear una orden']);
+        Permission::create(['name' => 'leer orden', 'state' => 1, 'modulo' => 'Ordenes', 'description' => 'Permite leer una orden']);
+        Permission::create(['name' => 'modificar orden', 'state' => 1, 'modulo' => 'Ordenes', 'description' => 'Permite modificar una orden']);
+        Permission::create(['name' => 'eliminar orden', 'state' => 1, 'modulo' => 'Ordenes', 'description' => 'Permite eliminar una orden']);
+
+//permisos para las solicitudes
+
+        Permission::create(['name' => 'crear solicitud', 'state' => 1, 'modulo' => 'Solicitudes', 'description' => 'Permite crear una solicitud']);
+        Permission::create(['name' => 'leer solicitud', 'state' => 1, 'modulo' => 'Solicitudes', 'description' => 'Permite leer una solicitud']);
+        Permission::create(['name' => 'modificar solicitud', 'state' => 1, 'modulo' => 'Solicitudes', 'description' => 'Permite modificar una solicitud']);
+        Permission::create(['name' => 'eliminar solicitud', 'state' => 1, 'modulo' => 'Solicitudes', 'description' => 'Permite eliminar una solicitud']);
+//permisos para las empresas
+        Permission::create(['name' => 'crear empresa', 'state' => 1, 'modulo' => 'Empresas', 'description' => 'Permite crear una empresa']);
+        Permission::create(['name' => 'leer empresa', 'state' => 1, 'modulo' => 'Empresas', 'description' => 'Permite leer una empresa']);
+        Permission::create(['name' => 'modificar empresa', 'state' => 1, 'modulo' => 'Empresas', 'description' => 'Permite modificar una empresa']);
+        Permission::create(['name' => 'eliminar empresa', 'state' => 1, 'modulo' => 'Empresas', 'description' => 'Permite eliminar una empresa']);
+//permisos para los repartidores
+        Permission::create(['name' => 'crear repartidor', 'state' => 1, 'modulo' => 'Repatidores', 'description' => 'Permite crear un repartidor']);
+        Permission::create(['name' => 'leer repartidor', 'state' => 1, 'modulo' => 'Repatidores', 'description' => 'Permite leer un repartidor']);
+        Permission::create(['name' => 'modificar repartidor', 'state' => 1, 'modulo' => 'Repatidores', 'description' => 'Permite modificar un repartidor']);
+        Permission::create(['name' => 'eliminar repartidor', 'state' => 1, 'modulo' => 'Repatidores', 'description' => 'Permite eliminar un repartidor']);
+
+        //permisos para los configuraciones
+        Permission::create(['name' => 'crear item', 'state' => 1, 'modulo' => 'Configuración web', 'description' => 'Permite crear un item']);
+        Permission::create(['name' => 'leer item', 'state' => 1, 'modulo' => 'Configuración web', 'description' => 'Permite leer un item']);
+        Permission::create(['name' => 'modificar item', 'state' => 1, 'modulo' => 'Configuración web', 'description' => 'Permite modificar un item']);
+        Permission::create(['name' => 'eliminar item', 'state' => 1, 'modulo' => 'Configuración web', 'description' => 'Permite eliminar un item']);
 
 
         /// cramos los roles para que son admin, tecnico1, tecnico 2, clinete
-        $role = Role::create(['name' => 'admin','status'=>'activo']);
+        $role = Role::create(['name' => 'Administrador', 'status' => 'activo']);
 
         //asignacion de los permisos al rol admin
         $role->givePermissionTo(Permission::all());
 
         ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
-        $role = Role::create(['name' => 'Cliente','status'=>'activo']);
-        //asignacion de los permisos al rol TECNICO SECUNDARIO
-        $role->givePermissionTo('read user');
-        $role->givePermissionTo('read product');
-        $role->givePermissionTo('read category');
-        $role->givePermissionTo('read subcategory');
+        $role = Role::create(['name' => 'Cliente', 'status' => 'activo']);
+        //asignacion de los permisos al rol
+        $role->givePermissionTo('leer usuario');
+        $role->givePermissionTo('leer producto');
+        $role->givePermissionTo('leer categoria');
 
         ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
-        $role = Role::create(['name' => 'Empresario','status'=>'activo']);
-        //asignacion de los permisos al rol TECNICO SECUNDARIO
-        $role->givePermissionTo('read user');
-        $role->givePermissionTo('read product');
-        $role->givePermissionTo('read category');
-        $role->givePermissionTo('read subcategory');
+        $role = Role::create(['name' => 'Empresario', 'status' => 'activo']);
+        //asignacion de los permisos al rol
+        $role->givePermissionTo('leer usuario');
+        $role->givePermissionTo('leer producto');
+        $role->givePermissionTo('leer categoria');
 
-         ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
-         $role = Role::create(['name' => 'Repartidor','status'=>'activo']);
-         //asignacion de los permisos al rol TECNICO SECUNDARIO
-         $role->givePermissionTo('read user');
-         $role->givePermissionTo('read product');
-         $role->givePermissionTo('read category');
-         $role->givePermissionTo('read subcategory');
-
+        ///<<<<----------- ROL CLIENTE  PERMISOS ----->>>>
+        $role = Role::create(['name' => 'Repartidor', 'status' => 'activo']);
+        //asignacion de los permisos al rol
+        $role->givePermissionTo('leer usuario');
+        $role->givePermissionTo('leer producto');
+        $role->givePermissionTo('leer categoria');
 
 
         /*
@@ -105,6 +127,6 @@ class UserSeed extends Seeder
             'email' => 'admin@gmail.com',
             'password' => $user_password]);
 
-        $user->assignRole('admin');
+        $user->assignRole('Administrador');
     }
 }

@@ -56,17 +56,12 @@ class UserController extends Controller
     {
         $validate = $request->validated();
         $user = new User();
-        $user->ci = $request->ci;
-        $user->ruc = $request->ruc;
         $user->name = $request->name;
-        $user->last_name = $request->last_name;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->gender = $request->gender;
         $user->status = $request->status;
-        $user->birth_date = $request->birth_date;
         $user->url_image = $this->UploadImage($request);
-        $user->password = $this->generatePassword($request->ci);
+        $user->password = $this->generatePassword($request->username);
         $user->save();
         $role = Role::findById($request->id_rol);
         $user->assignRole($role);
@@ -112,15 +107,10 @@ class UserController extends Controller
     {
         $validate = $request->validated();
         $user = User::find($id);
-        $user->ci = $request->ci;
-        $user->ruc = $request->ruc;
         $user->name = $request->name;
-        $user->last_name = $request->last_name;
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->gender = $request->gender;
         $user->status = $request->status;
-        $user->birth_date = $request->birth_date;
         if($request->file('url_image')){
             $user->url_image = $this->UploadImage($request);
         }

@@ -24,7 +24,7 @@
                     <i class="fa fa-close text-warning"></i>
                 @endif
             <td>
-                @can('update category')
+                @can('modificar categoria')
                     <a href="{{route('edit-category',$category->id)}}"
                                         class="btn btn-default btn-xs"
                                         data-toggle="tooltip"
@@ -33,7 +33,7 @@
                                         <i class="fa fa-pencil font-14"></i>
                      </a>
                 @endcan
-                @can('delete category')
+                @can('eliminar categoria')
                     <a class="btn btn-default btn-xs btn-delete-category"
                         data-toggle="tooltip"
                         @if ($category->status=="activo")

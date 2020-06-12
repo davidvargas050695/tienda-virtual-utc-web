@@ -24,14 +24,18 @@ class CreatePermissionTables extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('guard_name');
+            $table->integer('state')->default(1);
+            $table->string('modulo');
+            $table->string('description');
             $table->timestamps();
         });
 
         Schema::create($tableNames['roles'], function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->enum('status',['activo','inactivo']);
             $table->string('guard_name');
+            $table->enum('status', ['activo', 'inactivo'])->default('activo');
+            $table->enum('permmission', ['especial', 'ninguno','asignar'])->nullable();
             $table->timestamps();
         });
 
