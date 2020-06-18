@@ -25,6 +25,11 @@ Route::get('deliveryman', function () {
 });
 
 Auth::routes();
+//RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
+Route::get('create-merchant', 'RequestForm@createMerchant')->name('create-merchant');
+Route::get('create-deliveryman', 'RequestForm@createdeliveryMan')->name('create-deliveryman');
+Route::post('store-merchant', 'RequestForm@storeMarchant')->name('store-merchant');
+Route::post('store-deliveryman', 'RequestForm@storeDeliveryMan')->name('store-deliveryman');
 
 Route::middleware('auth')->group(function () {
 
@@ -33,7 +38,7 @@ Route::middleware('auth')->group(function () {
 ///RUTAS PARA GESTIONAR LOS ROLES Y PERMISOS
     Route::get('roles', 'admin\RoleController@getRoles')->name('roles');
     Route::get('permissions/{id}', 'admin\RoleController@getPermissions')->name('permissions');
-    Route::get('get-roles', 'admin\RoleController@index')->name('get-roles');
+    Route::get('get-roles', 'admin\RoleController@index')->name('get-roles')->middleware('permission:crear rol|leer rol|modificar rol|eliminar rol');
     Route::get('create-roles', 'admin\RoleController@create')->name('create-role');
     Route::post('store-role', 'admin\RoleController@store')->name('store-role');
     Route::get('edit-role/{id}', 'admin\RoleController@edit')->name('edit-role');
@@ -85,11 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::put('deactivate-user', 'admin\UserController@deactivate')->name('deactivate-user');
 
 
-//RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
-    Route::get('create-merchant', 'RequestForm@createMerchant')->name('create-merchant');
-    Route::get('create-deliveryman', 'RequestForm@createdeliveryMan')->name('create-deliveryman');
-    Route::post('store-merchant', 'RequestForm@storeMarchant')->name('store-merchant');
-    Route::post('store-deliveryman', 'RequestForm@storeDeliveryMan')->name('store-deliveryman');
+
 
 //RUTAS PARA LOS EMPRESARIOS
     Route::get('get-request-merchants', 'admin\MerchantController@getRequestMerchants')->name('get-request-merchants');

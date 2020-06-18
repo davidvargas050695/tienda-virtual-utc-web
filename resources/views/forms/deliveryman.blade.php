@@ -95,6 +95,18 @@
                 <div class="text-muted text-center mb-2">
                   <h5>Formulario de solicitud para repartidores</h5>
                 </div>
+                @if (session('status'))
+                @if (session('status')!="error")
+                    <div class="alert alert-success mr-3 ml-3">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('status') }}
+                        </div>
+                @else
+                <div class="alert alert-danger mr-3 ml-3">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> Se presentó un inconveniente con esta petición.  Por favor contacta con el administrador
+                    </div>
+
+                @endif
+            @endif
               </div>
               <div class="card-body ">
                 {!! Form::open(['url' => 'store-deliveryman','files' => true]) !!}
@@ -264,8 +276,20 @@
                                 </div>
                              @enderror
                         </div>
-
                         <div class="col-md-12">
+                            <div class="custom-file pb-3">
+
+                                {!! Form::file('url_file', ['class'=>'custom-file-input pb-3','id'=>'customFile']) !!}
+                                <label class="custom-file-label" for="customFile">Documento PDF: copia cédula o pasaporte y certificado de votacón</label>
+                                @error('url_file')
+                                <div class="alert alert-danger alert-dismissible fade show pb-3" role="alert">
+                                    {{ $message }}.
+                                </div>
+                             @enderror
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 mt-3">
                             <div class="form-group">
                                 <label class="text-muted" for="">Describe brevemente tu vehículo</label>
                                 <div class="input-group input-group-alternative mb-3">

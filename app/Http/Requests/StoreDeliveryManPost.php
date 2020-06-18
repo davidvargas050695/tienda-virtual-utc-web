@@ -26,15 +26,16 @@ class StoreDeliveryManPost extends FormRequest
         return [
             'name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
             'last_name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-            'ci' => 'required|numeric|unique:users',
+            'ci' => 'required|numeric|unique:delivery_men',
             'address' => 'required',
             'phone' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:delivery_men',
             'vehicle_type' => 'required',
             'vehicle_plate' => 'string|string',
             'vehicle_year' => 'required|numeric|digits:4',
             'vehicle_make' => 'required|string',
             'vehicle_description' => 'required',
+            'url_file'=>'required|mimes:pdf'
         ];
     }
     public function messages()
@@ -68,6 +69,8 @@ class StoreDeliveryManPost extends FormRequest
             'vehicle_make.regex' => 'Los datos no son correctos.'
             ,
             'vehicle_description.required' => 'Este campo es obligatorio.',
+            'url_file.required' => 'Este campo es obligatorio.',
+            'url_file.mimes' => 'El documento debe tener un formato pdf.',
 
 
 

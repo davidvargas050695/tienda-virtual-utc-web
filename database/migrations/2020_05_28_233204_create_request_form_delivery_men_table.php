@@ -25,6 +25,7 @@ class CreateRequestFormDeliveryMenTable extends Migration
             $table->string('vehicle_plate');
             $table->string('vehicle_year');
             $table->string('vehicle_make');
+            $table->string('url_file')->nullable();
             $table->string('vehicle_description');
             $table->enum('status',['aprobado','denegado','revision'])->default('revision');
             $table->timestamps();

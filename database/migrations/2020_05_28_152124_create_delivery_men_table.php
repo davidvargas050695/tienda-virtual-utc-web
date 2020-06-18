@@ -15,12 +15,24 @@ class CreateDeliveryMenTable extends Migration
     {
         Schema::create('delivery_men', function (Blueprint $table) {
             $table->id();
+            $table->string('ci')->unique();
+            $table->string('ruc')->unique()->nullable();
+            $table->string('name');
+            $table->string('last_name');
+            $table->string('address')->nullable();
+            $table->string('phone');
+            $table->string('email')->unique();
+            $table->date('birth_date');
+            $table->enum('gender',['masculino','femenino']);
+
+
             $table->string('vehicle_type');
             $table->string('vehicle_make');
             $table->string('vehicle_plate');
             $table->string('vehicle_year');
             $table->string('vehicle_description');
             $table->string('url_vehicle')->nullable();
+            $table->string('url_file')->nullable();
             $table->unsignedBigInteger('id_user');
             $table->enum('status',['aprobado','denegado','revision'])->default('aprobado');
             $table->timestamps();

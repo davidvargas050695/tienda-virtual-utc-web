@@ -277,8 +277,22 @@
                                 </div>
                              @enderror
                         </div>
-
                         <div class="col-md-12">
+                            <div class="custom-file pb-3">
+
+                                {!! Form::file('url_file', ['class'=>'custom-file-input pb-3','id'=>'customFile']) !!}
+                                <label class="custom-file-label" for="customFile">Documento PDF: copia cédula o pasaporte y certificado de votacón</label>
+                                @error('url_file')
+                                <div class="alert alert-danger alert-dismissible fade show pb-3" role="alert">
+                                    {{ $message }}.
+                                </div>
+                             @enderror
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-12 mt-3">
                             <div class="form-group">
                                 <label class="text-muted" for="">Describe brevemente tu empresa</label>
                                 <div class="input-group input-group-alternative mb-3">

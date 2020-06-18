@@ -26,6 +26,7 @@ class CreateRequestFormsTable extends Migration
             $table->string('company_address');
             $table->string('company_type');
             $table->string('company_description');
+            $table->string('url_file')->nullable();
             $table->enum('status',['aprobado','denegado','revision'])->default('revision');
             $table->timestamps();
         });

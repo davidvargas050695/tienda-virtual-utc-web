@@ -24,6 +24,7 @@ class CreateCompaniesTable extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('url_merchant')->nullable();
+            $table->string('url_file')->nullable();
             $table->enum('status',['activo','inactivo'])->default('activo');
             $table->unsignedBigInteger('id_merchant');
             $table->timestamps();

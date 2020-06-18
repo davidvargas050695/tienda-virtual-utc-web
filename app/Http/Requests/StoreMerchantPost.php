@@ -25,17 +25,18 @@ class StoreMerchantPost extends FormRequest
     public function rules()
     {
         return [
-        'name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-        'last_name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
-        'ci'=>'required|numeric',
-        'address'=>'required',
-        'phone'=>'required',
-        'email'=>'required|email',
-       'company_name'=>'required|string',
-       'company_ruc'=>'numeric|digits:13',
-       'company_address'=>'required',
-        'company_type'=>'required',
-       'company_description'=>'required',
+            'name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+            'last_name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u',
+            'ci' => 'required|numeric',
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'company_name' => 'required|string',
+            'company_ruc' => 'numeric|digits:13',
+            'company_address' => 'required',
+            'company_type' => 'required',
+            'company_description' => 'required',
+            'url_file'=>'required|mimes:pdf'
         ];
     }
     public function messages()
@@ -59,7 +60,7 @@ class StoreMerchantPost extends FormRequest
             'company_address.required' => 'Este campo es obligatorio.',
 
 
-            'email.email' =>'No es un correo válido.',
+            'email.email' => 'No es un correo válido.',
             'email.unique' => 'El correo del usuario ya está en uso.',
             'email.required' => 'El correo del usuario es obligatorio.',
 
@@ -67,6 +68,8 @@ class StoreMerchantPost extends FormRequest
             'company_type.required' => 'Este campo es obligatorio.',
 
             'company_description.required' => 'Este campo es obligatorio.',
+            'url_file.mimes'=>'El documento de tener en formato pdf.',
+            'url_file.required' => 'El documento pdf  es obligatorio.',
 
 
 
