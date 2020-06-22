@@ -12,7 +12,7 @@
                         </div>
                     </div>
                     <div class="ibox-body">
-                        {!! Form::open(['url' => 'store-company']) !!}
+                        {!! Form::open(['url' => 'store-company','files' => true]) !!}
                         @include('admin.companytype.partials.form')
                         {!! Form::close() !!}
                     </div>

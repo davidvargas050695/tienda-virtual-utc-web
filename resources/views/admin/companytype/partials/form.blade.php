@@ -12,6 +12,17 @@
     </div>
     <div class="col-lg-12">
         <div class="form-group">
+            {!! Form::label('url_image', 'Fotografía (jpeg, png, jpg)') !!}
+            {!! Form::file('url_image', ['id'=>'img_product','class'=>'form-control']) !!}
+            @error('url_image')
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ $message }}.
+            </div>
+            @enderror
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="form-group">
             {!! Form::label('description', 'Descripción') !!}
             {!! Form::text('description',null, ['class'=>'form-control']) !!}
             @error('description')

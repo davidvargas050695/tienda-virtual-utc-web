@@ -30,7 +30,7 @@
                 @endif
             <td>
 
-                @can('update product')
+                @can('modificar producto')
                     <a href="{{route('edit-product',$product->id)}}"
                                             class="btn btn-default btn-xs"
                                             data-toggle="tooltip"
@@ -39,7 +39,7 @@
                                             <i class="fa fa-pencil font-14"></i>
                                         </a>
                 @endcan
-                @can('delete product')
+                @can('eliminar producto')
                     <a class="btn btn-default btn-xs btn-delete-product"
                     data-toggle="tooltip"
                     @if ($product->status=="activo")

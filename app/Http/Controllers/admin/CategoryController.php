@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryPost;
 use App\Http\Requests\UpdateCategoryPut;
 use Illuminate\Http\Request;
-
+use Intervention\Image\Facades\Image;
 class CategoryController extends Controller
 {
     /**
@@ -19,21 +19,24 @@ class CategoryController extends Controller
     {
         $categories = Category::paginate(8);
 
-        return view('admin.categories.index',compact('categories'));
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function getCategories($id)
     {
-        $categories = Category::where('id_company',$id)->get();
+        $categories = Category::where('id_company', $id)->get();
 
 
-        return view('admin.categories.tableCategorie',compact('categories'))->render();
+        return view('admin.categories.tableCategorie', compact('categories'))->render();
     }
 
     public function getApiCategories($id)
     {
-        $categories = Category::where('status','activo')->where('id_company',$id)->get(['name','id']);
-        return response()->json(['categories'=>$categories],200);
+        $categories = Category::where('status', 'activo')->where('id_company', $id)->get(['name', 'id', 'description', 'url_image']);
+        return response()->json([
+            'success' => true,
+            'categories' => $categories
+        ], 200);
     }
 
     /**
@@ -49,7 +52,7 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -59,6 +62,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->id_company = $request->id;
+        // $category->url_image = $this->UploadImage($request);
         $category->save();
         return $category;
         //return redirect()->route('get-category');
@@ -67,7 +71,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -78,7 +82,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,14 +90,14 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $categories = Category::paginate(8);
 
-        return view('admin.categories.edit',compact('category','categories'));
+        return view('admin.categories.edit', compact('category', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateCategoryPut $request, $id)
@@ -103,6 +107,10 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->status = $request->status;
+        if ($request->file('url_image')) {
+
+            $category->url_image = $this->UploadImage($request);
+        }
         $category->save();
         return redirect()->route('get-category');
     }
@@ -110,7 +118,7 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -121,18 +129,32 @@ class CategoryController extends Controller
 
         return redirect()->route('get-category');
     }
+
     public function deactivate(Request $request)
     {
         $category = Category::find($request->id);
-        if($category->status =='inactivo'){
+        if ($category->status == 'inactivo') {
             $category->status = 'activo';
-        }else{
+        } else {
             $category->status = 'inactivo';
         }
         $category->save();
-        $categories =Category::all();
-        return view('admin.categories.tableCategorie')->with('categories',$categories)->render();
+        $categories = Category::all();
+        return view('admin.categories.tableCategorie')->with('categories', $categories)->render();
 
 
+    }
+
+    public function UploadImage(Request $request)
+    {
+        $url_file = "img/categories/";
+        if ($request->file('url_image')) {
+            $image = $request->file('url_image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->save(public_path($url_file) . $name);
+            return $url_file . $name;
+        } else {
+            return "#";
+        }
     }
 }

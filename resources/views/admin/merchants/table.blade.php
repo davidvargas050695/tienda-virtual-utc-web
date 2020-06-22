@@ -32,11 +32,11 @@
                 @endif
             <td>
 
-                @can('update user')
+                @can('modificar solicitud')
                     <a href="{{route('create-merchant-profile',$merchant->id)}}" class="btn btn-default btn-xs"
-                            title="Ver petición"
+                            title="Modificar empresas"
                             data-toggle="tooltip">
-                                <i class="fa fa-eye font-14 text-primary"></i>
+                                <i class="fa fa-edit font-14 text-primary"></i>
                     </a>
                 @endcan
             </td>

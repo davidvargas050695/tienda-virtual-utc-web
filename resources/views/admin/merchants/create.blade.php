@@ -100,9 +100,9 @@
                         <div class="col-md-4 form-product">
                         </div>
 
-                            <div class="col-md-8 table-list-products">
+                        <div class="col-md-8 table-list-products">
 
-                            </div>
+                        </div>
 
                     </div>
 

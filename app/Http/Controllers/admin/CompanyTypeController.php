@@ -4,9 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use App\CompanyType;
 use App\Http\Controllers\Controller;
+use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\JWT;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CompanyTypeController extends Controller
 {
@@ -32,11 +37,13 @@ class CompanyTypeController extends Controller
 
     public function getApiCompanies()
     {
-        $companies_type = CompanyType::where('status','activo')->get();
+        $user = User::find(Auth::user()->id);
+        $companies_type = CompanyType::where('status','activo')->orderBy('name','ASC')->get();
 
         return response()->json([
-            'companies_type'=>$companies_type
-        ]);
+            'success'=>true,
+            'companies'=>$companies_type
+        ],200);
 
     }
 
@@ -80,7 +87,8 @@ class CompanyTypeController extends Controller
             //REGLAS DE VALIDACION
             'name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|unique:company_types',
             'description' => 'required|string',
-            'status' => 'required'
+            'status' => 'required',
+            'url_image'=>'required|mimes:png,jpeg,jpg'
 
         ], [
             //MENSAJES CUANDO NO SE CUMPLE LA VALIDACION
@@ -89,12 +97,17 @@ class CompanyTypeController extends Controller
             'name.unique' => 'Esta tipo ya existe.',
             'description.required' => 'Este campo es obligatorio.',
             'status.required' => 'Este campo es obligatorio.',
+
+            'url_image.required' => 'Este campo es obligatorio.',
+            'url_image.mimes' => 'Este formato de imagen no es válido.',
         ]);
 
         $company = new CompanyType();
         $company->name = $request->name;
         $company->description = $request->description;
         $company->status = $request->status;
+        $company->url_image = $this->UploadImage($request);
+
         $company->save();
         return redirect()->route('get-company');
     }
@@ -153,6 +166,9 @@ class CompanyTypeController extends Controller
         $company->name = $request->name;
         $company->description = $request->description;
         $company->status = $request->status;
+        if ($request->file('url_image')){
+            $company->url_image = $this->UploadImage($request);
+        }
         $company->save();
         return redirect()->route('get-company');
     }
@@ -174,4 +190,18 @@ class CompanyTypeController extends Controller
             return response()->json(['error' => $e], 422);
         }
     }
+
+    public function UploadImage(Request $request)
+    {
+        $url_file = "img/forms/";
+        if ($request->file('url_image')) {
+            $image = $request->file('url_image');
+            $name = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->save(public_path($url_file) . $name);
+            return $url_file . $name;
+        } else {
+            return "#";
+        }
+    }
+
 }

@@ -11,9 +11,9 @@
                 </div>
             </div>
             <div class="ibox-body">
-                {!! Form::model($category, ['url' => ['update-category', $category->id], 'method' => 'PUT']) !!}
+                {!! Form::model($category, ['url' => ['update-category', $category->id], 'method' => 'PUT','files'=>true]) !!}
 
-                    @include('admin.categories.partials.form')
+                    @include('admin.categories.partials.form_edit')
 
                  {!! Form::close() !!}
 

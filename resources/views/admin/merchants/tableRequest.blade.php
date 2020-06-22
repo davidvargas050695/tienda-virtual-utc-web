@@ -37,7 +37,7 @@
                 @endif
             <td>
 
-                @can('update user')
+                @can('leer solicitud')
                 @if ($request_merchant->status !="aprobado")
                 <a href="{{route('show-request-merchants',$request_merchant->id)}}" class="btn btn-default btn-xs"
                     title="Ver petición"

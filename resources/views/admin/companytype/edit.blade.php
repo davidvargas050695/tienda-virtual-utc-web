@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="ibox-body">
-                {!! Form::model($company, ['url' => ['update-company', $company->id], 'method' => 'PUT']) !!}
+                {!! Form::model($company, ['url' => ['update-company', $company->id], 'method' => 'PUT','files'=>true]) !!}
 
                     @include('admin.companytype.partials.form')
 

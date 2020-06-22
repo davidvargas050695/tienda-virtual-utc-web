@@ -27,7 +27,7 @@
                 @endif
             <td>
 
-                @can('update user')
+                @can('modificar empresa')
                     <button  class="btn btn-default btn-xs btn-company-edit"
                             data-id-company={{$company->id}}
                             data-name-company="{{$company->company_name}}"

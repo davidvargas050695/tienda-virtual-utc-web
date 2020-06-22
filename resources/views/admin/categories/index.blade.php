@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    @can('create category')
+    @can('crear categoria')
         <div class="col-md-4">
             <div class="ibox">
                 <div class="ibox-head bg-info">

@@ -22,9 +22,14 @@ class CompanyController extends Controller
     {
         //
     }
-    public function getApiCompanies($id){
-        $companies = Company::where('status','activo')->where('company_type',$id)->get(['company_name','id','url_merchant']);
-        return response()->json(['companies'=>$companies],200);
+
+    public function getApiCompanies($id)
+    {
+        $companies = Company::where('status', 'activo')->where('company_type', $id)->get(['id', 'company_name', 'company_address', 'company_phone', 'company_description', 'latitude', 'longitude', 'url_merchant']);
+        return response()->json([
+            'success' => true,
+            'companies' => $companies
+        ], 200);
 
     }
 
@@ -41,7 +46,7 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -52,7 +57,7 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -63,25 +68,25 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $company = Company::find($id);
         $companies = CompanyType::where('status', 'activo')
-        ->orderBy('name', 'ASC')
-        ->pluck('name', 'id');
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
 
-        return view('admin.merchants.partials.formCompany',compact('company','companies'))->render();
+        return view('admin.merchants.partials.formCompany', compact('company', 'companies'))->render();
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -96,28 +101,29 @@ class CompanyController extends Controller
         $company->longitude = $request->longitude;
         $company->latitude = $request->latitude;
         $company->status = $request->status;
-        if($request->file('url_merchant')){
+        if ($request->file('url_merchant')) {
             $company->url_merchant = $this->UploadImageMerchant($request);
         }
         $company->save();
-        return redirect()->route('create-merchant-profile',$company->merchant->id)
-        ->with('status', '¡Los datos se actualizarón satisfactoriamente!');
+        return redirect()->route('create-merchant-profile', $company->merchant->id)
+            ->with('status', '¡Los datos se actualizarón satisfactoriamente!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
     }
+
     public function getCompanies($id)
     {
         $merchant = Merchant::find($id);
-        return view('admin.merchants.tableCompany',compact('merchant'))->render();
+        return view('admin.merchants.tableCompany', compact('merchant'))->render();
     }
 
     public function UploadImageMerchant(Request $request)
@@ -132,12 +138,13 @@ class CompanyController extends Controller
             return "#";
         }
     }
+
     public function deactivate(Request $request)
     {
         $company = Company::find($request->id);
-        if($company->status =='inactivo'){
+        if ($company->status == 'inactivo') {
             $company->status = 'activo';
-        }else{
+        } else {
             $company->status = 'inactivo';
         }
         $company->save();
