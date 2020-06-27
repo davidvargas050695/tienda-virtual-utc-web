@@ -90,8 +90,6 @@ Route::middleware('auth')->group(function () {
     Route::put('deactivate-user', 'admin\UserController@deactivate')->name('deactivate-user');
 
 
-
-
 //RUTAS PARA LOS EMPRESARIOS
     Route::get('get-request-merchants', 'admin\MerchantController@getRequestMerchants')->name('get-request-merchants');
     Route::get('show-request-merchants/{id}', 'admin\MerchantController@showRequest')->name('show-request-merchants');
@@ -104,7 +102,7 @@ Route::middleware('auth')->group(function () {
     Route::put('update-company-merchant/{id}', 'admin\CompanyController@update')->name('update-company-merchant');
     Route::get('get-table-companies/{id}', 'admin\CompanyController@getCompanies')->name('get-table-companies');
     Route::put('deactivate-company-merchant', 'admin\CompanyController@deactivate')->name('deactivate-company-merchant');
-
+    Route::get('download-pdf-company/{id}', 'admin\CompanyController@downloadpdf')->name('download-pdf-company');
 //RUTAS PARA LOS REPARTIDORES
     Route::get('get-request-deliverymen', 'admin\DeliveryManController@getRequestDeliveryMen')->name('get-request-deliverymen');
     Route::get('show-request-delivery/{id}', 'admin\DeliveryManController@showRequest')->name('show-request-delivery');

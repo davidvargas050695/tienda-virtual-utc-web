@@ -150,4 +150,12 @@ class CompanyController extends Controller
         $company->save();
         return $company;
     }
+
+    public function downloadpdf($id)
+    {
+        $company = Company::find($id);
+        $rutaPdf = $company->url_file;
+        $name_pdf = "documento-adjunto-" . $company->company_name;
+        return response()->download($rutaPdf, $name_pdf . ".pdf");
+    }
 }

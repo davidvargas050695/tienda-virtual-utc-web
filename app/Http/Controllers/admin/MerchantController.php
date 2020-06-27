@@ -13,6 +13,7 @@ use App\RequestForm;
 use App\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Hash;
@@ -35,6 +36,7 @@ class MerchantController extends Controller
 
         return view('admin.merchants.index', compact('merchants', 'companies'));
     }
+
     public function getRequestMerchants()
     {
         $request_merchants = RequestForm::orderBy('created_at', 'ASC')->get();
@@ -66,21 +68,21 @@ class MerchantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreMerchantValidatePost $request, $id)
     {
         $validate = $request->validated();
 
-
+        $request_merchant = RequestForm::find($id);
         ///CONSULTAMOS SI EL SOLICITANTE YA TIENE UNA CUENTA EN EL SISTEMA
         //SI EXISTE SOLO GUARDAMOS LOS DATOS DE LA EMPRESA
         //CASO CONTRARIO GESTIONAMOS LAS TRES ENTIDADES USERS, MERCHANTS, Y COMPANIES
 
 
         if ($request->status == "revision") {
-            $request_merchant = RequestForm::find($id);
+
             $request_merchant->status = $request->status;
             $request_merchant->save();
             return redirect()->route('get-request-merchants');
@@ -90,9 +92,9 @@ class MerchantController extends Controller
                 if ($query) {
                     DB::beginTransaction();
                     ////CREAR EL REGISTRO DE LA COMPANIA
-                    $conpany =  $this->comapanyRegister($request, $query->id);
+                    $conpany = $this->comapanyRegister($request, $query->id, $request_merchant->id);
                     ///ACTUALIZAMOS EL ESTADO DE LA PETICON DEL EMPRESARION EN EL ESTADO ELEJIDO
-                    $request_merchant = RequestForm::find($id);
+
                     $request_merchant->status = $request->status;
                     $request_merchant->save();
                     DB::commit();
@@ -104,9 +106,9 @@ class MerchantController extends Controller
                     /// CREA EL REGISTRO DEL EMPRESARIO
                     $merchant = $this->merchantRegister($request, $user->id);
                     ////CREAR EL REGISTRO DE LA COMPANIA
-                    $company = $this->comapanyRegister($request, $merchant->id);
+                    $company = $this->comapanyRegister($request, $merchant->id, $request_merchant->id);
                     ///ACTUALIZAMOS EL ESTADO DE LA PETICON DEL EMPRESARION EN EL ESTADO ELEJIDO
-                    $request_merchant = RequestForm::find($id);
+
                     $request_merchant->status = $request->status;
                     $request_merchant->save();
                     DB::commit();
@@ -117,7 +119,7 @@ class MerchantController extends Controller
                 return $e;
             }
         } else {
-           $this->deleteRequestMerchant($id);
+            $this->deleteRequestMerchant($id);
             return redirect()->route('get-request-merchants');
         }
     }
@@ -125,7 +127,7 @@ class MerchantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -136,7 +138,7 @@ class MerchantController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -147,8 +149,8 @@ class MerchantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -159,7 +161,7 @@ class MerchantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -173,6 +175,7 @@ class MerchantController extends Controller
         $user_password = Hash::make($password);
         return $user_password;
     }
+
     public function UploadImage(Request $request)
     {
         $url_file = "img/users/";
@@ -185,6 +188,7 @@ class MerchantController extends Controller
             return "#";
         }
     }
+
     public function UploadImageMerchant(Request $request)
     {
         $url_file = "img/merchants/";
@@ -197,6 +201,7 @@ class MerchantController extends Controller
             return "#";
         }
     }
+
     public function createProfile($id)
     {
         $categories = Category::where('status', 'activo')
@@ -210,10 +215,9 @@ class MerchantController extends Controller
         ///RETIORNAMOS COMPANY VACIA PAR QUE RENDERICE EL FORMULARIO EDICION
         $company = Company::all()->last();
 
-
-
-        return view('admin.merchants.create', compact('categories', 'companies', 'merchant','company'));
+        return view('admin.merchants.create', compact('categories', 'companies', 'merchant', 'company'));
     }
+
     public function userRegister(Request $request)
     {
         ///CREA LA CUENTA EN LA TABLA USUARIOS
@@ -229,6 +233,7 @@ class MerchantController extends Controller
         $user->assignRole($role);
         return $user;
     }
+
     public function merchantRegister(Request $request, $id)
     {
 
@@ -247,8 +252,10 @@ class MerchantController extends Controller
         $merchant->save();
         return $merchant;
     }
-    public function comapanyRegister(Request $request, $id)
+
+    public function comapanyRegister(Request $request, $id, $id_request)
     {
+        $request_merchant = RequestForm::find($id_request);
         ////CREAR EL REGISTRO DE LA COMPANIA
         $company = new  Company();
         $company->company_name = $request->company_name;
@@ -260,13 +267,31 @@ class MerchantController extends Controller
         $company->longitude = $request->longitude;
         $company->latitude = $request->latitude;
         $company->url_merchant = $this->UploadImageMerchant($request);
+        $company->url_file = $request_merchant->url_file;
         $company->id_merchant = $id;
         $company->save();
         return $company;
     }
+
     public function deleteRequestMerchant($id)
     {
         $request_merchant = RequestForm::find($id);
         $request_merchant->delete();
+    }
+
+    public function loadPDFMerchant(Request $request)
+    {
+        $ruta_archivo = "#";
+
+        if ($request->file('url_file')) {
+
+            $archivo = $request->file('url_file');
+            $nombre_archivo = time() . '.' . $archivo->getClientOriginalExtension();
+            $r2 = Storage::disk('documents')->put(utf8_decode($nombre_archivo), File::get($archivo));
+            $ruta_archivo = "storage/documents/" . $nombre_archivo;
+        } else {
+            $ruta_archivo = "#";
+        }
+        return $ruta_archivo;
     }
 }

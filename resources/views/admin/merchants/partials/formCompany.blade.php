@@ -144,10 +144,12 @@
     </div>
     <div class="col-md-12">
         <button type="submit" class="btn btn-success">Guardar</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Ver documento</button>
     </div>
+
 </div>
 
 
-
+@include('admin.merchants.modalPdf')
 
 {!! Form::close() !!}

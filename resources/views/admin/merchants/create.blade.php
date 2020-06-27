@@ -41,6 +41,7 @@
                             @include('admin.merchants.partials.formCompany')
 
                         </div>
+
                         <div class="col-md-7">
                             @if (count($merchant->companies)>0)
                                 <div class="table-list-companies table-responsive">
@@ -116,3 +117,4 @@
 @endsection
 
 @include('admin.merchants.script')
+
