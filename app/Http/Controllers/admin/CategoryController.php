@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCategoryPost;
 use App\Http\Requests\UpdateCategoryPut;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+
 class CategoryController extends Controller
 {
     /**
@@ -27,7 +28,7 @@ class CategoryController extends Controller
         $categories = Category::where('id_company', $id)->get();
 
 
-        return view('admin.categories.tableCategorie', compact('categories'))->render();
+        return view('admin.categories.tableCategorieMerchant', compact('categories'))->render();
     }
 
     public function getApiCategories($id)
@@ -62,7 +63,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->id_company = $request->id;
-        // $category->url_image = $this->UploadImage($request);
+        $category->url_image = $this->UploadImageCategory($request);
         $category->save();
         return $category;
         //return redirect()->route('get-category');
@@ -148,7 +149,7 @@ class CategoryController extends Controller
     public function UploadImage(Request $request)
     {
         $url_file = "img/categories/";
-        if ($request->file('url_image')) {
+        if ($request->url_image && $request->url_image != '#') {
             $image = $request->file('url_image');
             $name = time() . '.' . $image->getClientOriginalExtension();
             Image::make($image)->save(public_path($url_file) . $name);
@@ -156,5 +157,21 @@ class CategoryController extends Controller
         } else {
             return "#";
         }
+    }
+
+    public function UploadImageCategory(Request $request)
+    {
+
+        $url_file = "img/categories/";
+        if ($request->url_image && $request->url_image != '#') {
+
+            $image = $request->get('url_image');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            Image::make($request->get('url_image'))->save(public_path($url_file) . $name);
+            return $url_file . $name;
+        } else {
+            return "#";
+        }
+
     }
 }

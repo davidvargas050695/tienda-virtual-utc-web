@@ -16,7 +16,7 @@
     <tbody>
         @foreach ($categories as $category)
         <tr>
-            <td><img width="40" height="40" src="{{$category->url_image}}" alt="" class="img-responsive"></td>
+            <td><img width="40" height="40" src="../{{$category->url_image}}" alt="" class="img-responsive"></td>
             <td>{{$category->name}}</td>
             <td>{{$category->description}}</td>
             <td>

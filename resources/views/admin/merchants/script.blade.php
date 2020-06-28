@@ -1,9 +1,55 @@
 @section('scripts')
     <script type="text/javascript">
 
+        let var_img_category = "#";
+        let var_img_product = "#";
         $(document).ready(function () {
 
         });
+
+
+        function readFile() {
+
+            if (this.files && this.files[0]) {
+
+                var FR = new FileReader();
+
+                FR.addEventListener("load", function (e) {
+                    var_img_category = e.target.result;
+                    document.getElementById("show_img_category").src = e.target.result;
+                    //document.getElementById("b64").innerHTML = e.target.result;
+
+                });
+
+                FR.readAsDataURL(this.files[0]);
+
+            }
+
+        }
+
+        document.getElementById("img_category").addEventListener("change", readFile);
+
+        function readFileProduct() {
+
+            if (this.files && this.files[0]) {
+
+                var FR = new FileReader();
+
+                FR.addEventListener("load", function (e) {
+                    var_img_product = e.target.result;
+
+                    //  console.log('varibles  ' + img_product);
+                    document.getElementById("show_img_product").src = e.target.result;
+                    //document.getElementById("b64").innerHTML = e.target.result;
+                });
+
+                FR.readAsDataURL(this.files[0]);
+
+            }
+
+        }
+
+        //
 
         function getCompanies() {
             let url = "{{route('get-table-companies',$merchant->id)}}";
@@ -21,6 +67,7 @@
             axios.get(url).then(function (response) {
                 $('.form-product').empty();
                 $('.form-product').html(response.data);
+                document.getElementById("img_product").addEventListener("change", readFileProduct);
             })
                 .catch(function (error) {
                     console.log(error);
@@ -57,7 +104,8 @@
             axios.post(url, {
                 'name': name,
                 'description': description,
-                'id': id
+                'id': id,
+                'url_image': var_img_category
             }).then(function (response) {
                 getCategories(id);
                 getFormProduct(id);
@@ -188,7 +236,7 @@
                 'name': name,
                 'id_category': id_category,
                 'description': description,
-                'url_img': url_img,
+                'url_image': var_img_product,
                 'price': price,
                 'stock': stock
             }).then(function (response) {
@@ -211,7 +259,7 @@
             event.preventDefault();
             let text = $(this).data('original-title');
             let id = $(this).data('id-product');
-            let id_company =$(this).data('id-company');
+            let id_company = $(this).data('id-company');
             let url = "{{route('deactivate-product')}}";
             Swal.fire({
                 title: '¿Está seguro para ' + text + '? ',

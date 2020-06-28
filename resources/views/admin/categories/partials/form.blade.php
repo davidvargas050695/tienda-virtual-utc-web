@@ -19,7 +19,12 @@
     <div class="col-lg-12">
         <div class="form-group">
             {!! Form::label('url_image', 'Fotografía (jpeg, png, jpg)') !!}
-            {!! Form::file('url_image', ['id'=>'img_product','class'=>'form-control']) !!}
+            {!! Form::file('url_image', ['id'=>'img_category','class'=>'form-control']) !!}
+            <div class="text-center mt-2">
+                <img  id="show_img_category" src="{{asset('img/image.png')}}" height="150">
+            </div>
+
+
             @error('url_image')
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ $message }}.

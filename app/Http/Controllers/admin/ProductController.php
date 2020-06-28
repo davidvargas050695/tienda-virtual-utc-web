@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function getProducts($id)
     {
         $products = Product::where('id_company', $id)->get();
-        return view('admin.products.tableProducts', compact('products'))->render();
+        return view('admin.products.tableProductsMerchant', compact('products'))->render();
     }
 
     public function getApiProducts($id)
@@ -97,7 +97,7 @@ class DetalleVenta(){
         //$product->status = $request->status;
         $product->id_category = $request->id_category;
         $product->id_company = $request->id;
-        $product->url_image = $this->UploadImage($request);
+        $product->url_image = $this->UploadImageProduct($request);
         $product->save();
         return $product;
         // return redirect()->route('get-product');
@@ -211,5 +211,20 @@ class DetalleVenta(){
         } else {
             return "#";
         }
+    }
+    public function UploadImageProduct(Request $request)
+    {
+
+        $url_file = "img/products/";
+        if ($request->url_image && $request->url_image != '#') {
+
+            $image = $request->get('url_image');
+            $name = time() . '.' . explode('/', explode(':', substr($image, 0, strpos($image, ';')))[1])[1];
+            Image::make($request->get('url_image'))->save(public_path($url_file) . $name);
+            return $url_file . $name;
+        } else {
+            return "#";
+        }
+
     }
 }
