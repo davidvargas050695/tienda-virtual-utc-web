@@ -1,21 +1,21 @@
 <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
     <thead>
-        <tr>
+    <tr>
 
-            <th>CI</th>
-            <th>RUC</th>
-            <th>Nombres y Apellidos</th>
-            <th>Email</th>
-            <th>Télefono</th>
-            <th>Empresa</th>
+        <th>CI</th>
+        <th>RUC</th>
+        <th>Nombres y Apellidos</th>
+        <th>Email</th>
+        <th>Télefono</th>
+        <th>Empresa</th>
 
-            <th>Enviado</th>
-            <th>Estado</th>
-            <th>Ver</th>
-        </tr>
+        <th>Enviado</th>
+        <th>Estado</th>
+        <th>Ver</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach ($request_merchants as $request_merchant)
+    @foreach ($request_merchants as $request_merchant)
         <tr>
             <td>{{$request_merchant->ci}}</td>
             <td>{{$request_merchant->company_ruc}}</td>
@@ -30,26 +30,27 @@
                     <span class="badge badge-primary badge-pill">{{$request_merchant->status}}</span>
                 @endif
                 @if ($request_merchant->status =="aprobado")
-                <span class="badge badge-success badge-pill">{{$request_merchant->status}}</span>
+                    <span class="badge badge-success badge-pill">{{$request_merchant->status}}</span>
                 @endif
                 @if ($request_merchant->status =="denegado")
-                <span class="badge badge-danger badge-pill">{{$request_merchant->status}}</span>
-                @endif
+                    <span class="badge badge-danger badge-pill">{{$request_merchant->status}}</span>
+            @endif
             <td>
 
                 @can('leer solicitud')
-                @if ($request_merchant->status !="aprobado")
-                <a href="{{route('show-request-merchants',$request_merchant->id)}}" class="btn btn-default btn-xs"
-                    title="Ver petición"
-                    data-toggle="tooltip">
-                        <i class="fa fa-eye font-14 text-primary"></i>
-                    </a>
-                @endif
+                    @if ($request_merchant->status !="aprobado")
+                        <a href="{{route('show-request-merchants',$request_merchant->id)}}"
+                           class="btn btn-default btn-xs"
+                           title="Ver petición"
+                           data-toggle="tooltip">
+                            <i class="fa fa-eye font-14 text-primary"></i>
+                        </a>
+                    @endif
 
                 @endcan
             </td>
         </tr>
-        @endforeach
+    @endforeach
     </tbody>
 </table>
 

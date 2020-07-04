@@ -68,14 +68,10 @@ class DeliveryManController extends Controller
                 DB::beginTransaction();
                 //CREAMOS UN NUEVO USUARIO
                 $user = new User();
-                $user->ci = $request->ci;
-                $user->ruc = $request->company_ruc;
+
                 $user->name = $request->name;
-                $user->last_name = $request->last_name;
                 $user->username = $request->name . time();
                 $user->email = $request->email;
-                $user->gender = $request->gender;
-                $user->birth_date = $request->birth_date;
                 $user->url_image = $this->UploadImage($request);
                 $user->password = $this->generatePassword($request->ci);
                 $user->save();
@@ -84,6 +80,17 @@ class DeliveryManController extends Controller
 
                 ///GURADAMOS LA TABLA DELIVERMAN
                 $deliveryman = new DeliveryMan();
+                $deliveryman->ci = $request->ci;
+                $deliveryman->ruc = $request->company_ruc;
+                $deliveryman->name = $request->name;
+                $deliveryman->last_name = $request->last_name;
+                $deliveryman->email = $request->email;
+                $deliveryman->phone = $request->phone;
+                $deliveryman->gender = $request->gender;
+                $deliveryman->birth_date = $request->birth_date;
+
+
+
                 $deliveryman->vehicle_type = $request->vehicle_type;
                 $deliveryman->vehicle_plate = $request->vehicle_plate;
                 $deliveryman->vehicle_year = $request->vehicle_year;

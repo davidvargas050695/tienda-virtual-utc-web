@@ -16,10 +16,10 @@
     <tbody>
         @foreach ($deliverymen as $delivery)
         <tr>
-            <td>{{$delivery->user->ci}}</td>
+            <td>{{$delivery->ci}}</td>
 
-            <td>{{$delivery->user->last_name}} {{$delivery->user->name}}</td>
-            <td>{{$delivery->user->email}}</td>
+            <td>{{$delivery->last_name}} {{$delivery->name}}</td>
+            <td>{{$delivery->email}}</td>
             <td>{{$delivery->vehicle_make}}</td>
             <td>{{$delivery->vehicle_type}}</td>
             <td>{{$delivery->vehicle_plate}}</td>
@@ -33,8 +33,8 @@
                 @endif
             <td>
 
-                @can('update user')
-            <a href="{{route('show-request-merchants',$delivery->id)}}" class="btn btn-default btn-xs"
+                @can('modificar solicitud')
+            <a href="" class="btn btn-default btn-xs"
                     title="Ver petición"
                     data-toggle="tooltip">
                         <i class="fa fa-eye font-14 text-primary"></i>

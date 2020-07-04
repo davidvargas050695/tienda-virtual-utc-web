@@ -3,7 +3,13 @@
     <div id="sidebar-collapse">
         <div class="admin-block d-flex">
             <div>
-                <img class="img-circle" src="{{ Auth::user()->url_image}}" width="45px"/>
+                @if (Auth::user()->url_image==="#")
+                    <img class="img-circle" src="{{asset('img/users/user.png')}}" width="45px"/>
+                @else
+
+                    <img src="{{ Auth::user()->url_image}}"/>
+                @endif
+
             </div>
             <div class="admin-info">
                 <div class="font-strong">{{Auth::user()->name}} {{Auth::user()->last_name}}</div>
@@ -12,7 +18,7 @@
         </div>
         <ul class="side-menu metismenu">
             <li>
-                <a class="active" href="#"><i class="sidebar-item-icon fa fa-th-large"></i>
+                <a class="active" href="{{route('home')}}"><i class="sidebar-item-icon fa fa-th-large"></i>
                     <span class="nav-label">Panel de control</span>
                 </a>
             </li>
@@ -112,16 +118,19 @@
             @can('leer item')
                 <li>
                     <a href="javascript:;"><i class="sidebar-item-icon fa fa-folder"></i>
-                        <span class="nav-label">Formularios</span><i class="fa fa-angle-left arrow"></i></a>
+                        <span class="nav-label">Configuraciones</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">
 
-
                         <li>
-                            <a href="{{route('get-company')}}">Empresas</a>
+                            <a href="{{route('web-index')}}">Sliders</a>
                         </li>
 
                         <li>
-                            <a href="{{route('get-vehicle')}}">Vehículos</a>
+                            <a href="{{route('get-company')}}">Tipos de Empresas</a>
+                        </li>
+
+                        <li>
+                            <a href="{{route('get-vehicle')}}">Tipos de Vehículos</a>
                         </li>
 
 

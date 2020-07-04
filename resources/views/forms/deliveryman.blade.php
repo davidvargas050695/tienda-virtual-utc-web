@@ -24,9 +24,10 @@
   <header class="header-global">
     <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom">
         <div class="container">
-            <a class="navbar-brand mr-lg-5" href="#">
-              <img src="{{asset('assets/img/utc.png')}}">
+            <a class="navbar-brand mr-lg-5" href="{{route('index')}}">
+                <img src="{{asset('img/utc.png')}}">
             </a>
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,9 +35,9 @@
               <div class="navbar-collapse-header">
                 <div class="row">
                   <div class="col-6 collapse-brand">
-                    <a href="../index.html">
-                      <img src="{{asset('assets/img/utc.png')}}">
-                    </a>
+                      <a href="{{route('index')}}">
+                          <img src="{{asset('img/utc.png')}}">
+                      </a>
                   </div>
                   <div class="col-6 collapse-close">
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">

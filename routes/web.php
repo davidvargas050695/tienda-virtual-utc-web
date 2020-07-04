@@ -13,27 +13,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
 
+Auth::routes();
+
+
+//RUTAS PUBLICA PRINCIPAL DE LA WEB
+
+Route::get('/', 'WebController@index')->name('index');
+
+
+//RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
+Route::get('create-merchant', 'RequestForm@createMerchant')->name('create-merchant');
+Route::get('create-deliveryman', 'RequestForm@createdeliveryMan')->name('create-deliveryman');
+Route::post('store-merchant', 'RequestForm@storeMarchant')->name('store-merchant');
+Route::post('store-deliveryman', 'RequestForm@storeDeliveryMan')->name('store-deliveryman');
 Route::get('merchant', function () {
     return view('forms.merchant');
 });
 Route::get('deliveryman', function () {
     return view('forms.deliveryman');
 });
-
-Auth::routes();
-//RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
-Route::get('create-merchant', 'RequestForm@createMerchant')->name('create-merchant');
-Route::get('create-deliveryman', 'RequestForm@createdeliveryMan')->name('create-deliveryman');
-Route::post('store-merchant', 'RequestForm@storeMarchant')->name('store-merchant');
-Route::post('store-deliveryman', 'RequestForm@storeDeliveryMan')->name('store-deliveryman');
-
 Route::middleware('auth')->group(function () {
 
-
+    Route::get('admin', 'HomeController@index')->name('admin');
     Route::get('/home', 'HomeController@index')->name('home');
 ///RUTAS PARA GESTIONAR LOS ROLES Y PERMISOS
     Route::get('roles', 'admin\RoleController@getRoles')->name('roles');
@@ -128,4 +130,19 @@ Route::middleware('auth')->group(function () {
     Route::put('update-vehicle/{id}', 'admin\VehicleTypeController@update')->name('update-vehicle');
     Route::delete('delete-vehicle/{id}', 'admin\VehicleTypeController@update')->name('delete-vehicle');
     Route::put('deactivate-vehicle', 'admin\VehicleTypeController@deactivate')->name('deactivate-vehicle');
+
+
+    //RUTAS PARA LAS CONFIGURACION DE LA WEB
+    Route::get('web-index', 'admin\SliderController@index')->name('web-index');
+    Route::get('create-web', 'admin\SliderController@create')->name('create-web');
+    Route::post('store-web', 'admin\SliderController@store')->name('store-web');
+    Route::get('edit-web/{id}', 'admin\SliderController@edit')->name('edit-web');
+    Route::put('update-web/{id}', 'admin\SliderController@update')->name('update-web');
+    Route::put('delete-web', 'admin\SliderController@delete')->name('delete-web');
+    Route::put('change-status-web', 'admin\SliderController@ChangeStatus')->name('change-status-web');
+    Route::get('get-sliders', 'admin\SliderController@getSliders')->name('get-sliders');
+    Route::get('order-slider', 'admin\SliderController@changeOrder')->name('order-slider');
+    Route::put('update-order-slider', 'admin\SliderController@updateOrder')->name('update-order-slider');
+
+
 });

@@ -24,7 +24,7 @@ class StoreDeliveryManValidatePost extends FormRequest
     public function rules()
     {
         return [
-            'ci' => 'required|numeric|unique:users|digits:10',
+            'ci' => 'required|numeric|unique:delivery_men|digits:10',
             'ruc' => 'numeric|unique:users|digits:13',
             'name' => 'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
 

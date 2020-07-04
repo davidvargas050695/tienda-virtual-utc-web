@@ -59,6 +59,10 @@ return [
             'driver' => 'local',
             'root'   => public_path('img/products'),
         ],
+        'sliders' => [
+            'driver' => 'local',
+            'root'   => public_path('img/sliders'),
+        ],
         'public' => [
             'driver' => 'local',
             'root' => public_path(),
