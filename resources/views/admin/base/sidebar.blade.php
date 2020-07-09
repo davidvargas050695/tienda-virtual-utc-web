@@ -117,6 +117,23 @@
             @endcan
             @can('leer item')
                 <li>
+                    <a href="javascript:;"><i class="sidebar-item-icon fa fa-car"></i>
+                        <span class="nav-label">Convenios</span><i class="fa fa-angle-left arrow"></i></a>
+                    <ul class="nav-2-level collapse">
+                        <li>
+                            <a href="{{route('create-convenios')}}">Nuevo convenio</a>
+                        </li>
+                        <li>
+                            <a href="{{route('index-convenios')}}">Lista de convenios</a>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+            @endcan
+            @can('leer item')
+                <li>
                     <a href="javascript:;"><i class="sidebar-item-icon fa fa-folder"></i>
                         <span class="nav-label">Configuraciones</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">

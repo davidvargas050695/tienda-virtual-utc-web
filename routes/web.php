@@ -144,5 +144,12 @@ Route::middleware('auth')->group(function () {
     Route::get('order-slider', 'admin\SliderController@changeOrder')->name('order-slider');
     Route::put('update-order-slider', 'admin\SliderController@updateOrder')->name('update-order-slider');
 
+    ///RUTAS PARA LOS CONVENIOS
+    Route::get('create-convenio', 'admin\ConvenioController@create')->name('create-convenios');
+    Route::post('store-convenio', 'admin\ConvenioController@store')->name('create-store');
+    Route::put('update-convenio/{id}', 'admin\ConvenioController@update')->name('update-convenios');
+    Route::put('delete-convenio', 'admin\ConvenioController@delete')->name('delete-convenios');
+    Route::get('index-convenio', 'admin\ConvenioController@index')->name('index-convenios');
+    Route::get('edit-convenio/{id}', 'admin\ConvenioController@edit')->name('edit-convenio');
 
 });
