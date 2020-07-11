@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\CompanyType;
+use App\Convenio;
 use App\DeliveryMan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDeliveryManValidatePost;
+use App\Http\Requests\UpdateDeliveryManPut;
 use App\RequestFormDeliveryMan;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,7 @@ use Spatie\Permission\Models\Role;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class DeliveryManController extends Controller
 {
@@ -26,13 +29,13 @@ class DeliveryManController extends Controller
      */
     public function index()
     {
-        $deliverymen = DeliveryMan::orderBy('created_at','ASC')->get();
+        $deliverymen = DeliveryMan::orderBy('created_at', 'ASC')->get();
 
         $vehicles = VehicleType::where('status', 'activo')
-        ->orderBy('name', 'ASC')
-        ->pluck('name', 'id');
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
 
-        return view('admin.deliveryman.index', compact('deliverymen','vehicles'));
+        return view('admin.deliveryman.index', compact('deliverymen', 'vehicles'));
     }
 
     /**
@@ -48,20 +51,20 @@ class DeliveryManController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDeliveryManValidatePost $request,$id)
+    public function store(StoreDeliveryManValidatePost $request, $id)
     {
 
+        $request_deliveryman = RequestFormDeliveryMan::find($id);
+        if ($request->status == "revision") {
 
-        if ($request->status == "denegado") {
-            $request_deliveryman = RequestFormDeliveryMan::find($id);
             $request_deliveryman->status = $request->status;
             $request_deliveryman->save();
             return redirect()->route('get-request-deliverymen');
 
-        } else if($request->status == "aprobado" ||$request->status == "revision"){
+        } else if ($request->status == "aprobado") {
             $validate = $request->validated();
             try {
 
@@ -90,7 +93,6 @@ class DeliveryManController extends Controller
                 $deliveryman->birth_date = $request->birth_date;
 
 
-
                 $deliveryman->vehicle_type = $request->vehicle_type;
                 $deliveryman->vehicle_plate = $request->vehicle_plate;
                 $deliveryman->vehicle_year = $request->vehicle_year;
@@ -98,6 +100,8 @@ class DeliveryManController extends Controller
                 $deliveryman->vehicle_description = $request->vehicle_description;
                 $deliveryman->url_vehicle = $this->UploadImageDeliveryMan($request);;
                 $deliveryman->id_user = $user->id;
+                $deliveryman->id_convenio = $request->id_convenio;
+                $deliveryman->url_file =$request_deliveryman->url_file;
                 $deliveryman->save();
 
                 //cambiamos el estado de la peticion
@@ -113,15 +117,30 @@ class DeliveryManController extends Controller
                 DB::rollBack();
                 return redirect()->route('get-request-deliverymen');
             }
-        }else{
+        } else {
+            $this->deleteRequestDelivery($id);
             return redirect()->route('get-request-deliverymen');
         }
     }
+    public function deleteRequestDelivery($id)
+    {
+        $request_deliveryman = RequestFormDeliveryMan::find($id);
+        $this->destroyFile($request_deliveryman->url_file);
+        $request_deliveryman->delete();
 
+    }
+    public function destroyFile($path_file)
+    {
+        if (File::exists(public_path($path_file))) {
+
+            File::delete(public_path($path_file));
+
+        }
+    }
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -132,30 +151,93 @@ class DeliveryManController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+
+        $deliveryman = DeliveryMan::find($id);
+        $request = RequestFormDeliveryMan::find($id);
+        $vehicles = VehicleType::where('status', 'activo')
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        $convenios = Convenio::orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        return view('admin.deliveryman.edit', compact('request', 'vehicles', 'convenios','deliveryman'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDeliveryManPut $request, $id)
     {
-        //
+
+            $validate = $request->validated();
+            $deliveryman = DeliveryMan::find($id);
+
+            try {
+
+                DB::beginTransaction();
+                //CREAMOS UN NUEVO USUARIO
+                $user =  User::find($deliveryman->user->id);
+
+                $user->name = $request->name;
+                $user->username = $request->name . time();
+                $user->email = $request->email;
+                if($request->file('url_image')){
+                    $this->destroyFile($user->url_file);
+                    $user->url_image = $this->UploadImage($request);
+                }
+                $user->password = $this->generatePassword($request->ci);
+                $user->save();
+                $role = Role::findById(3);
+                $user->assignRole($role);
+
+                ///GURADAMOS LA TABLA DELIVERMAN
+
+                $deliveryman->ci = $request->ci;
+                $deliveryman->ruc = $request->company_ruc;
+                $deliveryman->name = $request->name;
+                $deliveryman->last_name = $request->last_name;
+                $deliveryman->email = $request->email;
+                $deliveryman->phone = $request->phone;
+                $deliveryman->gender = $request->gender;
+                $deliveryman->birth_date = $request->birth_date;
+
+
+                $deliveryman->vehicle_type = $request->vehicle_type;
+                $deliveryman->vehicle_plate = $request->vehicle_plate;
+                $deliveryman->vehicle_year = $request->vehicle_year;
+                $deliveryman->vehicle_make = $request->vehicle_make;
+                $deliveryman->vehicle_description = $request->vehicle_description;
+                if($request->file('url_vehicle')){
+                    $this->destroyFile($deliveryman->url_vehicle);
+                    $deliveryman->url_vehicle = $this->UploadImageDeliveryMan($request);
+                }
+                $deliveryman->id_user = $user->id;
+                $deliveryman->id_convenio = $request->id_convenio;
+                $deliveryman->status = $request->status;
+                $deliveryman->save();
+
+                DB::commit();
+
+                return redirect()->route('get-deliverymen');
+            } catch (Exception $e) {
+                DB::rollBack();
+                return redirect()->route('get-deliverymen');
+            }
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -170,19 +252,24 @@ class DeliveryManController extends Controller
 
         return view('admin.deliveryman.list_request', compact('request_deliverymen'));
     }
+
     public function showRequest($id)
     {
         $request = RequestFormDeliveryMan::find($id);
         $vehicles = VehicleType::where('status', 'activo')
-        ->orderBy('name', 'ASC')
-        ->pluck('name', 'id');
-        return view('admin.deliveryman.showRequest', compact('request','vehicles'));
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        $convenios = Convenio::orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+        return view('admin.deliveryman.showRequest', compact('request', 'vehicles', 'convenios'));
     }
+
     public function generatePassword($password)
     {
         $user_password = Hash::make($password);
         return $user_password;
     }
+
     public function UploadImage(Request $request)
     {
         $url_file = "img/users/";
@@ -195,6 +282,7 @@ class DeliveryManController extends Controller
             return "#";
         }
     }
+
     public function UploadImageDeliveryMan(Request $request)
     {
         $url_file = "img/deliverymen/";

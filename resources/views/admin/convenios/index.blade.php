@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div class="ibox-body">
-                        <div class="table-company table-responsive">
+                        <div class="table-convenios table-responsive">
                             @include('admin.convenios.table')
 
                         </div>

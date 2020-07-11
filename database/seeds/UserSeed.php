@@ -5,6 +5,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\Convenio;
 
 class UserSeed extends Seeder
 {
@@ -128,5 +129,14 @@ class UserSeed extends Seeder
             'password' => $user_password]);
 
         $user->assignRole('Administrador');
+
+        $convenio_base = Convenio::create([
+            'name' => 'Convenio base',
+            'legal_representative' => 'DUEÑO DEL CONVENIO',
+            'start' => '2020/12/12',
+            'end' => '2020/06/12',
+            'url_document' => 'storage/documents/convenio-1594432102.pdf',
+            'status' => 'base'
+        ]);
     }
 }

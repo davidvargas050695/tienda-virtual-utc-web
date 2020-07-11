@@ -15,6 +15,7 @@ class CreateRequestFormDeliveryMenTable extends Migration
     {
         Schema::create('request_form_delivery_men', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_convenio');
             $table->string('name');
             $table->string('last_name');
             $table->string('ci');
@@ -27,8 +28,9 @@ class CreateRequestFormDeliveryMenTable extends Migration
             $table->string('vehicle_make');
             $table->string('url_file')->nullable();
             $table->string('vehicle_description');
-            $table->enum('status',['aprobado','denegado','revision'])->default('revision');
+            $table->enum('status', ['aprobado', 'denegado', 'revision'])->default('revision');
             $table->timestamps();
+
         });
     }
 

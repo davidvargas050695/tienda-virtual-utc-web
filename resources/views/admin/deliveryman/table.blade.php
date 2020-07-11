@@ -34,8 +34,8 @@
             <td>
 
                 @can('modificar solicitud')
-            <a href="" class="btn btn-default btn-xs"
-                    title="Ver petición"
+            <a href="{{route('get-deliveryman',$delivery->id)}}" class="btn btn-default btn-xs"
+                    title="Editar Perfil"
                     data-toggle="tooltip">
                         <i class="fa fa-eye font-14 text-primary"></i>
                     </a>

@@ -20,7 +20,7 @@ class CreateConveniosTable extends Migration
             $table->date('start');
             $table->date('end');
             $table->string('url_document');
-            $table->enum('status', ['activo', 'inactivo'])->default('activo');
+            $table->enum('status', ['activo', 'inactivo','base'])->default('activo');
             $table->timestamps();
         });
     }

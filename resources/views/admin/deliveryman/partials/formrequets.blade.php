@@ -145,7 +145,7 @@
     </div>
     <div class="col-lg-6">
         <div class="form-group">
-            <small class="text-muted">Forografía del empresario</small>
+            <small class="text-muted">Forografía del repartidor</small>
             {!! Form::file('url_image', ['class'=>'form-control']) !!}
             @error('url_image')
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -155,7 +155,19 @@
         </div>
     </div>
 
-
+    <div class="col-md-12">
+        <div class="form-group">
+            <small class="text-muted">Convenio de la empresa</small>
+            <div class="input-group input-group-alternative mb-3">
+                {!! Form::select('id_convenio', $convenios,null, ['class'=>'form-control']) !!}
+            </div>
+        </div>
+        @error('company_type')
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ $message }}.
+        </div>
+        @enderror
+    </div>
     <div class="col-md-12">
         <h6>Datos del vehículo</h6>
     </div>
@@ -314,7 +326,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar</button>
+                <a href="{{route('download-pdf-request-delivery',$request->id)}}" class="btn btn-success"><i class="fa fa-download"></i> Descargar</a>
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Category;
 use App\Company;
 use App\CompanyType;
+use App\Convenio;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMerchantPost;
 use App\Http\Requests\StoreMerchantValidatePost;
@@ -18,6 +19,7 @@ use Spatie\Permission\Models\Role;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class MerchantController extends Controller
 {
@@ -52,7 +54,11 @@ class MerchantController extends Controller
         $companies = CompanyType::where('status', 'activo')
             ->orderBy('name', 'ASC')
             ->pluck('name', 'id');
-        return view('admin.merchants.showRequest', compact('request', 'companies'));
+        $convenios = Convenio::orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+
+        return view('admin.merchants.showRequest', compact('request', 'companies', 'convenios'));
     }
 
     /**
@@ -68,7 +74,7 @@ class MerchantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreMerchantValidatePost $request, $id)
@@ -127,7 +133,7 @@ class MerchantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -138,7 +144,7 @@ class MerchantController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -149,8 +155,8 @@ class MerchantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -161,7 +167,7 @@ class MerchantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -269,6 +275,7 @@ class MerchantController extends Controller
         $company->url_merchant = $this->UploadImageMerchant($request);
         $company->url_file = $request_merchant->url_file;
         $company->id_merchant = $id;
+        $company->id_convenio = $request->id_convenio;
         $company->save();
         return $company;
     }
@@ -293,5 +300,14 @@ class MerchantController extends Controller
             $ruta_archivo = "#";
         }
         return $ruta_archivo;
+    }
+
+    public function destroyFile($path_file)
+    {
+        if (File::exists(public_path($path_file))) {
+
+            File::delete(public_path($path_file));
+
+        }
     }
 }

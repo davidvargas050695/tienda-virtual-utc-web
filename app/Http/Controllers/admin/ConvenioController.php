@@ -17,7 +17,7 @@ class ConvenioController extends Controller
      */
     public function index()
     {
-        $convenios = Convenio::orderBy('created_at', 'ASC')->paginate(10);
+        $convenios = Convenio::orderBy('created_at', 'ASC')->get();
         return view('admin.convenios.index', compact('convenios'));
     }
 
@@ -59,7 +59,8 @@ class ConvenioController extends Controller
      */
     public function show($id)
     {
-        //
+        $convenio = Convenio::find($id);
+        return view('admin.convenios.show', compact('convenio'));
     }
 
     /**
@@ -83,6 +84,20 @@ class ConvenioController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $convenio = Convenio::find($id);
+        $convenio->name = $request->name;
+        $convenio->legal_representative = $request->legal_representative;
+        $convenio->start = $request->start;
+        $convenio->end = $request->end;
+        if ($request->file('url_document')) {
+            $this->destroyFile($convenio->url_document);
+            $convenio->url_document = $this->loadPDFConvenio($request);
+        }
+
+        $convenio->status = $request->status;
+        $convenio->save();
+
+        return redirect()->route('index-convenios');
 
     }
 
@@ -95,7 +110,6 @@ class ConvenioController extends Controller
     public function delete(Request $request)
     {
         $convenio = Convenio::find($request->id);
-        return $convenio;
         $this->destroyFile($convenio->url_document);
         $convenio->delete();
         return redirect()->route('index-convenios');
@@ -124,5 +138,11 @@ class ConvenioController extends Controller
             \File::delete(public_path($path_file));
 
         }
+    }
+
+    public function getConvenio()
+    {
+        $convenios = Convenio::orderBy('created_at', 'ASC')->get();
+        return view('admin.convenios.table', compact('convenios'))->render();
     }
 }

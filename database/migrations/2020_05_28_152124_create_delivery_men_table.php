@@ -15,6 +15,7 @@ class CreateDeliveryMenTable extends Migration
     {
         Schema::create('delivery_men', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_convenio');
             $table->string('ci')->unique();
             $table->string('ruc')->unique()->nullable();
             $table->string('name');
@@ -23,7 +24,7 @@ class CreateDeliveryMenTable extends Migration
             $table->string('phone');
             $table->string('email')->unique();
             $table->date('birth_date');
-            $table->enum('gender',['masculino','femenino']);
+            $table->enum('gender', ['masculino', 'femenino']);
 
 
             $table->string('vehicle_type');
@@ -34,9 +35,10 @@ class CreateDeliveryMenTable extends Migration
             $table->string('url_vehicle')->nullable();
             $table->string('url_file')->nullable();
             $table->unsignedBigInteger('id_user');
-            $table->enum('status',['aprobado','denegado','revision'])->default('aprobado');
+            $table->enum('status', ['aprobado', 'denegado', 'revision'])->default('aprobado');
             $table->timestamps();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_convenio')->references('id')->on('convenios')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }

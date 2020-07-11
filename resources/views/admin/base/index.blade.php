@@ -70,7 +70,7 @@
 <script src="{{asset('js/axios.min.js')}}" type="text/javascript"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-<script src="{{asset('js/sliders.js')}}" type="text/javascript"></script>
+
 <script>
 
 </script>

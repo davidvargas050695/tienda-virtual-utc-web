@@ -21,3 +21,10 @@
 
 @endsection
 
+@section('scripts')
+    <script type="text/javascript">
+        $('.btn-download').on('click', function () {
+
+        });
+    </script>
+@endsection

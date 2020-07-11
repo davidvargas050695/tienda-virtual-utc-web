@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CompanyType;
+use App\Convenio;
 use App\Http\Requests\StoreDeliveryManPost;
 use App\Http\Requests\StoreMerchantPost;
 use App\RequestForm as AppRequestForm;
@@ -24,7 +25,11 @@ class RequestForm extends Controller
         $companies = CompanyType::where('status', 'activo')
             ->orderBy('name', 'ASC')
             ->pluck('name', 'id');
-        return view('forms.merchant', compact('companies'));
+        $convenios = Convenio::where('status', 'activo')
+            ->orderBy('name', 'ASC')
+            ->get(['id','name']);
+
+        return view('forms.merchant', compact('companies', 'convenios'));
     }
 
     //store solicitud del repartidor
@@ -34,8 +39,12 @@ class RequestForm extends Controller
         $vehicles = VehicleType::where('status', 'activo')
             ->orderBy('name', 'ASC')
             ->pluck('name', 'id');
-        return view('forms.deliveryman', compact('vehicles'));
+        $convenios = Convenio::where('status', 'activo')
+            ->orderBy('name', 'ASC')
+            ->get(['id','name']);
+        return view('forms.deliveryman', compact('vehicles', 'convenios'));
     }
+
     //create solicitud del repartidor
 
     public function storeMarchant(StoreMerchantPost $request)
@@ -43,6 +52,7 @@ class RequestForm extends Controller
         /*name,last_name,ci,address,phone,email,company_name,company_ruc,company_address,company_type, company_description*/
 
         $validate = $request->validated();
+
 
         try {
             DB::beginTransaction();
@@ -60,6 +70,11 @@ class RequestForm extends Controller
             $request_merchant->company_type = $request->company_type;
             $request_merchant->company_description = $request->company_description;
             $request_merchant->url_file = $this->loadPDFMerchant($request);
+            if ($request->convenio) {
+                $request_merchant->id_convenio = 1;
+            } else {
+                $request_merchant->id_convenio = $request->id_convenio;
+            }
             $request_merchant->save();
             DB::commit();
             //retornamoas a la ruta del formulario principal
@@ -79,20 +94,26 @@ class RequestForm extends Controller
 
         try {
             DB::beginTransaction();
-            $request_merchant = new RequestFormDeliveryMan();
-            $request_merchant->name = $request->name;
-            $request_merchant->last_name = $request->last_name;
-            $request_merchant->ci = $request->ci;
-            $request_merchant->address = $request->address;
-            $request_merchant->phone = $request->phone;
-            $request_merchant->email = $request->email;
-            $request_merchant->vehicle_type = $request->vehicle_type;
-            $request_merchant->vehicle_plate = $request->vehicle_plate;
-            $request_merchant->vehicle_year = $request->vehicle_year;
-            $request_merchant->vehicle_make = $request->vehicle_make;
-            $request_merchant->vehicle_description = $request->vehicle_description;
-            $request_merchant->url_file = $this->loadPDFMerchant($request);
-            $request_merchant->save();
+            $request_delivery = new RequestFormDeliveryMan();
+            $request_delivery->name = $request->name;
+            $request_delivery->last_name = $request->last_name;
+            $request_delivery->ci = $request->ci;
+            $request_delivery->address = $request->address;
+            $request_delivery->phone = $request->phone;
+            $request_delivery->email = $request->email;
+            $request_delivery->vehicle_type = $request->vehicle_type;
+            $request_delivery->vehicle_plate = $request->vehicle_plate;
+            $request_delivery->vehicle_year = $request->vehicle_year;
+            $request_delivery->vehicle_make = $request->vehicle_make;
+            $request_delivery->vehicle_description = $request->vehicle_description;
+            $request_delivery->url_file = $this->loadPDFMerchant($request);
+            if ($request->convenio) {
+                $request_delivery->id_convenio =1;
+            } else {
+                $request_delivery->id_convenio = $request->id_convenio;
+            }
+
+            $request_delivery->save();
             DB::commit();
             //retornamoas a la ruta del formulario principal
             return redirect()->route('create-deliveryman')->with('status', '¡Tú solicitud se ha enviado satisfactoriamente!');
@@ -117,5 +138,20 @@ class RequestForm extends Controller
             $ruta_archivo = "#";
         }
         return $ruta_archivo;
+    }
+
+    public function downloadpdf($id)
+    {
+        $request = AppRequestForm::find($id);
+        $rutaPdf = $request->url_file;
+        $name_pdf = "documento-adjunto-" . $request->company_name . '-' . time();
+        return response()->download($rutaPdf, $name_pdf . ".pdf");
+    }
+    public function downloadpdfReuestDelivery($id)
+    {
+        $request = RequestFormDeliveryMan::find($id);
+        $rutaPdf = $request->url_file;
+        $name_pdf = "documento-adjunto-" . $request->name . '-' . time();
+        return response()->download($rutaPdf, $name_pdf . ".pdf");
     }
 }

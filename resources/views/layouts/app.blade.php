@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <title>Salache Productos</title>
+    <title>Tienda virtual UTC</title>
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->

@@ -8,6 +8,9 @@
                     <div class="ibox-head bg-info">
                         <div class="ibox-title text-white">Nueva Convenio</div>
                         <div class="ibox-tools">
+                            <a class="text-white " href="{{route('index-convenios')}}">
+                                <i class="fa fa-arrow-left"></i>
+                                Atras</a>
                         </div>
                     </div>
                     <div class="ibox-body">

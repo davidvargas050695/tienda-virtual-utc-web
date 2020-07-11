@@ -1,4 +1,5 @@
 @section('scripts')
+    <script src="{{asset('js/sliders.js')}}" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {

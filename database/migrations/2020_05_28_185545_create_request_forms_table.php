@@ -15,6 +15,7 @@ class CreateRequestFormsTable extends Migration
     {
         Schema::create('request_forms', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_convenio');
             $table->string('name');
             $table->string('last_name');
             $table->string('ci');
@@ -29,6 +30,8 @@ class CreateRequestFormsTable extends Migration
             $table->string('url_file')->nullable();
             $table->enum('status',['aprobado','denegado','revision'])->default('revision');
             $table->timestamps();
+            //$table->foreign('id_convenio')->references('id')->on('convenios')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 

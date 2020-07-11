@@ -1,14 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="content">
+<div class="content mt-lg-5">
     <div class="brand">
-        <a class="link" href="index.html">Salache Productos</a>
+        <h2 hidden class="login-title">Iniciar sesión</h2>
     </div>
 
     <form id="login-form" method="POST" action="{{ route('login') }}">
         @csrf
-        <h2 class="login-title">Iniciar sesión</h2>
+        <div class="text-center">
+            <img class="m-b-20" src="{{asset('img/utc.png')}}" height="90" alt="">
+        </div>
+
         <div class="form-group">
             <div class="input-group-icon right">
                 <div class="input-icon"><i class="fa fa-envelope"></i></div>

@@ -27,6 +27,8 @@ Route::get('create-merchant', 'RequestForm@createMerchant')->name('create-mercha
 Route::get('create-deliveryman', 'RequestForm@createdeliveryMan')->name('create-deliveryman');
 Route::post('store-merchant', 'RequestForm@storeMarchant')->name('store-merchant');
 Route::post('store-deliveryman', 'RequestForm@storeDeliveryMan')->name('store-deliveryman');
+Route::get('download-pdf-request-merchant/{id}', 'RequestForm@downloadpdf')->name('download-pdf-request-merchant');
+Route::get('download-pdf-request-delivery/{id}', 'RequestForm@downloadpdfReuestDelivery')->name('download-pdf-request-delivery');
 Route::get('merchant', function () {
     return view('forms.merchant');
 });
@@ -110,6 +112,8 @@ Route::middleware('auth')->group(function () {
     Route::get('show-request-delivery/{id}', 'admin\DeliveryManController@showRequest')->name('show-request-delivery');
     Route::post('store-request-delivery/{id}', 'admin\DeliveryManController@store')->name('store-request-delivery');
     Route::get('get-deliverymen', 'admin\DeliveryManController@index')->name('get-deliverymen');
+    Route::get('get-deliveryman/{id}','admin\DeliveryManController@edit')->name('get-deliveryman');
+    Route::put('update-deliveryman/{id}','admin\DeliveryManController@update')->name('update-deliveryman');
 
 
 //RUTAS PARA LAS TIPOS DE EMPRESAS
@@ -148,8 +152,10 @@ Route::middleware('auth')->group(function () {
     Route::get('create-convenio', 'admin\ConvenioController@create')->name('create-convenios');
     Route::post('store-convenio', 'admin\ConvenioController@store')->name('create-store');
     Route::put('update-convenio/{id}', 'admin\ConvenioController@update')->name('update-convenios');
-    Route::put('delete-convenio', 'admin\ConvenioController@delete')->name('delete-convenios');
+    Route::post('delete-convenio', 'admin\ConvenioController@delete')->name('delete-convenios');
     Route::get('index-convenio', 'admin\ConvenioController@index')->name('index-convenios');
     Route::get('edit-convenio/{id}', 'admin\ConvenioController@edit')->name('edit-convenio');
+    Route::get('get-convenios', 'admin\ConvenioController@getConvenio')->name('get-convenios');
+    Route::get('show-convenio/{id}', 'admin\ConvenioController@show')->name('show-convenio');
 
 });

@@ -23,6 +23,12 @@
                     <i class="fa fa-close text-warning"></i>
             @endif
             <td>
+                <a href="{{route('show-convenio',$convenio->id)}}"
+                   data-toggle="tooltip"
+                   data-original-title="Ver"
+                   class="btn btn-default btn-xs">
+                    <i class="fa fa-eye font-14 text-info"></i>
+                </a>
                 @can('modificar item')
                     <a href="{{route('edit-convenio',$convenio->id)}}"
                        class="btn btn-default btn-xs"
@@ -33,16 +39,13 @@
                     </a>
                 @endcan
                 @can('eliminar item')
-
-                    {!! Form::model($convenio, ['url' => ['delete-convenio', $convenio->id], 'method' => 'DELETE']) !!}
-                    <button type="button"
-                            data-toggle="tooltip"
-                            data-original-title="Editar"
-                            class="btn btn-default btn-xs btn-delete-convenio">
+                    <a type="button"
+                       data-id-convenio="{{$convenio->id}}"
+                       data-toggle="tooltip"
+                       data-original-title="Editar"
+                       class="btn btn-default btn-xs btn-delete-convenio">
                         <i class="fa fa-trash font-14 text-danger"></i>
-                    </button>
-                    {!! Form::close() !!}
-
+                    </a>
                 @endcan
 
             </td>
