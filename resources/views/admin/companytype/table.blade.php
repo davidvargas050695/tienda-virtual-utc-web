@@ -1,6 +1,7 @@
 <table class="table table-striped table-bordered table-hover" id="example-table" cellspacing="0" width="100%">
     <thead>
     <tr>
+        <th>Foto</th>
         <th>Nombre</th>
         <th>Descripción</th>
         <th>Estado</th>
@@ -10,6 +11,8 @@
     <tbody>
     @foreach ($companies as $company)
         <tr>
+            <td><img width="40" height="40" src="{{$company->url_image}}" alt="" class="img-responsive"></td>
+
             <td>{{$company->name}}</td>
             <td>{{$company->description}}</td>
             <td>

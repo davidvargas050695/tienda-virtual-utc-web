@@ -157,5 +157,6 @@ Route::middleware('auth')->group(function () {
     Route::get('edit-convenio/{id}', 'admin\ConvenioController@edit')->name('edit-convenio');
     Route::get('get-convenios', 'admin\ConvenioController@getConvenio')->name('get-convenios');
     Route::get('show-convenio/{id}', 'admin\ConvenioController@show')->name('show-convenio');
+    Route::get('download-pdf-convenio/{id}', 'admin\ConvenioController@downloadpdf')->name('download-pdf-convenio');
 
 });

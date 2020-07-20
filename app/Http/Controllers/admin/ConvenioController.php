@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ConvenioController extends Controller
 {
@@ -144,5 +145,12 @@ class ConvenioController extends Controller
     {
         $convenios = Convenio::orderBy('created_at', 'ASC')->get();
         return view('admin.convenios.table', compact('convenios'))->render();
+    }
+    public function downloadpdf($id)
+    {
+        $convenio = Convenio::find($id);
+        $rutaPdf = $convenio->url_document;
+        $name_pdf = $convenio->name;
+        return response()->download($rutaPdf, $name_pdf . ".pdf");
     }
 }

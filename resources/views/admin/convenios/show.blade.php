@@ -1,8 +1,6 @@
 @extends('admin.base.index')
 @section('content')
     <div class="row">
-
-
         <div class="col-md-4">
             <div class="ibox">
                 <div class="ibox-head badge-info">
@@ -57,7 +55,7 @@
                 <div class="ibox-head badge-info">
                     <div class="ibox-title">Documento</div>
                     <div class="ibox-tools">
-                        <a class="text-white " href="{{route('index-convenios')}}">
+                        <a class="text-white " href="{{route('download-pdf-convenio',$convenio->id)}}">
                             <i class="fa fa-download"></i>
                             Descargar</a>
                     </div>

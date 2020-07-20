@@ -292,21 +292,26 @@
                                     </label>
                                     <label for="" class="text-muted">
 
-                                        <small>   (<span class="text-info font-weight-700">¡Importante! </span>  Si no tiene un convenio acepte nuestros terminos y condiciones al final)</small>
+                                        <small> (<span class="text-info font-weight-700">¡Importante! </span> Si no
+                                            tiene un convenio acepte nuestros terminos y condiciones al final)</small>
 
                                     </label>
 
                                     <div class="form-group">
                                         <div class="input-group input-group-alternative mb-3">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text"><i class="ni ni-shop"></i></span>
+
+                                                <button id="btn_download_convenio" type="button"  class="btn btn-sm btn-success"><i
+                                                            class="ni ni-cloud-download-95"></i> Descargar convenio</button>
                                             </div>
+
                                             <select class="form-control" name="id_convenio" id="id_convenio">
                                                 <option value="not">No tengo un convenio</option>
                                                 @foreach ($convenios as $item)
                                                     <option value="{{$item->id}}">{{$item->name}}</option>
                                                 @endforeach
                                             </select>
+
                                         </div>
                                     </div>
                                     @error('id_convenio')
@@ -354,11 +359,10 @@
                                 <label id="rd_not">
                                     <input name="convenio" value="not" id="check_terminos" type="checkbox">
                                     Acepto terminos y condiciones
-                                   </label>
+                                </label>
                                 <br>
                             </div>
                             <div class="text-muted font-italic">
-
 
 
                                 <small>
@@ -433,37 +437,47 @@
 <script src="{{asset('form/assets/js/argon.js?v=1.0.1')}}"></script>
 <script type="text/javascript">
 
-$(document).ready(function(){
-  //  alert('entro');
+    $(document).ready(function () {
+        //  alert('entro');
 
-});
+    });
 
-$(document).on("click", "#rd_not", function(e) {
-  //  $('.permisos').attr("hidden",true);
-   // alert('not');
-});
+    $(document).on("click", "#btn_download_convenio", function (e) {
+        let value_select = $('#id_convenio').val();
+        let id = 0;
+        if(value_select !="not" ){
+            id = value_select;
+        }
+        if(id !=0){
+            let url = "../download-pdf-convenio/"+id;
+            window.location.href=url;
+        }
+    });
+    $(document).on("click", "#rd_not", function (e) {
+        //  $('.permisos').attr("hidden",true);
+        // alert('not');
+    });
 
-$(document).on("click", ".btn-save", function(e) {
+    $(document).on("click", ".btn-save", function (e) {
 
-  var valor = $('#id_convenio').val();
-  if(valor=="not"){
-    if( $('#check_terminos').prop('checked') ) {
-
-
-    $('#form_en').submit();
-
-    }else
-    {
-        alert("Si no tiene un convenio acepte nuestros terminos y condiciones");
-    }
-
-
-  }else{
-    $('#form_en').submit();
-  }
+        var valor = $('#id_convenio').val();
+        if (valor == "not") {
+            if ($('#check_terminos').prop('checked')) {
 
 
-});
+                $('#form_en').submit();
+
+            } else {
+                alert("Si no tiene un convenio acepte nuestros terminos y condiciones");
+            }
+
+
+        } else {
+            $('#form_en').submit();
+        }
+
+
+    });
 </script>
 </body>
 
