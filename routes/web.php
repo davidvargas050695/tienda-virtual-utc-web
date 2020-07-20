@@ -23,8 +23,8 @@ Route::get('/', 'WebController@index')->name('index');
 
 
 //RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
-Route::get('create-merchant', 'RequestForm@createMerchant')->name('create-merchant');
-Route::get('create-deliveryman', 'RequestForm@createdeliveryMan')->name('create-deliveryman');
+Route::get('empresa', 'RequestForm@createMerchant')->name('empresa');
+Route::get('repartidor', 'RequestForm@createdeliveryMan')->name('repartidor');
 Route::post('store-merchant', 'RequestForm@storeMarchant')->name('store-merchant');
 Route::post('store-deliveryman', 'RequestForm@storeDeliveryMan')->name('store-deliveryman');
 Route::get('download-pdf-request-merchant/{id}', 'RequestForm@downloadpdf')->name('download-pdf-request-merchant');
