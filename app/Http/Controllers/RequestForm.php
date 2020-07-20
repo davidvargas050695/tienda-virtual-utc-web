@@ -78,11 +78,11 @@ class RequestForm extends Controller
             $request_merchant->save();
             DB::commit();
             //retornamoas a la ruta del formulario principal
-            return redirect()->route('create-merchant')->with('status', '¡Tú solicitud se ha enviado satisfactoriamente!');
+            return redirect()->route('empresa')->with('status', '¡Tú solicitud se ha enviado satisfactoriamente!');
         } catch (Exception $e) {
             //retornamoas a la ruta del formulario principal con el error y hacemos u rol back de la trasanccions
             DB::rollback();
-            return redirect()->route('create-merchant')->with('status', 'error');
+            return redirect()->route('empresa')->with('status', 'error');
         }
     }
 
@@ -116,11 +116,11 @@ class RequestForm extends Controller
             $request_delivery->save();
             DB::commit();
             //retornamoas a la ruta del formulario principal
-            return redirect()->route('create-deliveryman')->with('status', '¡Tú solicitud se ha enviado satisfactoriamente!');
+            return redirect()->route('repartidor')->with('status', '¡Tú solicitud se ha enviado satisfactoriamente!');
         } catch (Exception $e) {
             //retornamoas a la ruta del formulario principal con el error y hacemos u rol back de la trasanccions
             DB::rollback();
-            return redirect()->route('create-deliveryman')->with('status', 'error');
+            return redirect()->route('repartidor')->with('status', 'error');
         }
     }
 
