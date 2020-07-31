@@ -99,7 +99,7 @@
                     <div class="card bg-secondary shadow border-0">
                         <div class="card-header bg-white pb-2">
                             <div class="text-muted text-center mb-2">
-                                <h5>Formulario de solicitud para empresas</h5>
+                                <h5>Formulario Solicitud Empresa</h5>
                             </div>
                         </div>
                         @if (session('status'))
@@ -229,7 +229,7 @@
                                                 <span class="input-group-text"><i class="ni ni-shop"></i></span>
                                             </div>
 
-                                            {!! Form::text('company_name', null, ['class'=>'form-control','placeholder'=>'Nombre de empresa']) !!}
+                                            {!! Form::text('company_name', null, ['class'=>'form-control','placeholder'=>'Nombre']) !!}
                                         </div>
                                     </div>
                                     @error('company_name')
@@ -245,7 +245,7 @@
                                                 <span class="input-group-text"><i class="ni ni-shop"></i></span>
                                             </div>
 
-                                            {!! Form::text('company_ruc', null, ['class'=>'form-control','placeholder'=>'Ruc de la empresa']) !!}
+                                            {!! Form::text('company_ruc', null, ['class'=>'form-control','placeholder'=>'Ruc']) !!}
                                         </div>
                                     </div>
                                     @error('company_ruc')
@@ -260,7 +260,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-pin-3"></i></span>
                                             </div>
-                                            {!! Form::text('company_address', null, ['class'=>'form-control','placeholder'=>'Ubicación de la empresa']) !!}
+                                            {!! Form::text('company_address', null, ['class'=>'form-control','placeholder'=>'Ubicación']) !!}
                                         </div>
                                     </div>
                                     @error('company_address')

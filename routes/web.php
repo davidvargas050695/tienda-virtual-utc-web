@@ -112,8 +112,8 @@ Route::middleware('auth')->group(function () {
     Route::get('show-request-delivery/{id}', 'admin\DeliveryManController@showRequest')->name('show-request-delivery');
     Route::post('store-request-delivery/{id}', 'admin\DeliveryManController@store')->name('store-request-delivery');
     Route::get('get-deliverymen', 'admin\DeliveryManController@index')->name('get-deliverymen');
-    Route::get('get-deliveryman/{id}','admin\DeliveryManController@edit')->name('get-deliveryman');
-    Route::put('update-deliveryman/{id}','admin\DeliveryManController@update')->name('update-deliveryman');
+    Route::get('get-deliveryman/{id}', 'admin\DeliveryManController@edit')->name('get-deliveryman');
+    Route::put('update-deliveryman/{id}', 'admin\DeliveryManController@update')->name('update-deliveryman');
 
 
 //RUTAS PARA LAS TIPOS DE EMPRESAS
@@ -159,4 +159,6 @@ Route::middleware('auth')->group(function () {
     Route::get('show-convenio/{id}', 'admin\ConvenioController@show')->name('show-convenio');
     Route::get('download-pdf-convenio/{id}', 'admin\ConvenioController@downloadpdf')->name('download-pdf-convenio');
 
+    ///RUTAS ORDENES
+    Route::get('get-pdf-order/{id}', 'admin\OrderController@generatePDFOrder')->name('get-pdf-order');
 });

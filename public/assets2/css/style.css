@@ -14,11 +14,11 @@ body {
 }
 
 a {
-  color: #1bbd36;
+  color: #1b44bd;
 }
 
 a:hover {
-  color: #2ae149;
+  color: #e12ab9;
   text-decoration: none;
 }
 
@@ -130,7 +130,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-menu a:hover, .nav-menu .active > a, .nav-menu li:hover > a {
-  color: #1bbd36;
+  color: #1ba5bd;
 }
 
 .nav-menu .drop-down ul {

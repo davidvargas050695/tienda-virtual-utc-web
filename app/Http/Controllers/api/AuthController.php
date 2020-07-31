@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Customer;
 use App\Http\Controllers\Controller;
 use App\User;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Tymon\JWTAuth\JWT;
@@ -21,55 +23,75 @@ class AuthController extends Controller
         if (!$token = JWTAuth::attempt($creds)) {
             return response()->json([
                 'success' => false,
-                'message'=>'invalid credentials'
-            ],401);
+                'message' => 'invalid credentials'
+            ], 401);
         }
         return response()->json([
             'success' => true,
             'token' => $token,
             'user' => Auth::user()
-        ],200);
+        ], 200);
     }
-    public function register(Request $request){
-        $encriptedPass = Hash::make($request->password);
-        try{
 
+    public function register(Request $request)
+    {
+        $encriptedPass = Hash::make($request->password);
+        try {
+            DB::beginTransaction();
             $user = new User();
-            $user->name = "".time();
-            $user->username = "". time();
+            $user->name = $request->name;
+            $user->username = $request->username;
             $user->email = $request->email;
+            $user->phone = $request->phone;
             $user->password = $encriptedPass;
             $user->url_image = "";
             $user->save();
             ///asignamos el rol el empresario
-            $role = Role::findById(3);
+            $role = Role::findById(2);
             $user->assignRole($role);
+
+            $customer = new Customer();
+            $customer->name = $request->name;
+            $customer->last_name = $request->last_name;
+            $customer->ci = "" . time();
+            $customer->phone = $request->phone;
+            $customer->email = $request->email;
+            $customer->birth_date = "2020/10/10";
+            $customer->gender = "masculino";
+            $customer->id_user = $user->id;
+            $customer->save();
+            DB::commit();
             return $this->login($request);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
+            DB::rollBack();
             return response()->json([
-                'success'=>false,
-                'message'=>$exception
+                'success' => false,
+                'message' => $exception
             ]);
 
         }
 
 
     }
-    public function logout(Request $request){
-        try{
+
+    public function logout(Request $request)
+    {
+        try {
             JWTAuth::invalidate(JWTAuth::parseToken($request->token));
             return response()->json([
-                'success'=>true,
-                'message'=>'logout success'
+                'success' => true,
+                'message' => 'logout success'
             ]);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
-                'success'=>false,
-                'message'=>'logout fail'.$e
+                'success' => false,
+                'message' => 'logout fail' . $e
             ]);
         }
     }
-    public function profileUser(Request $request){
+
+    public function profileUser(Request $request)
+    {
         $user = User::find(Auth::user()->id);
         $user->name = $request->name;
         $user->last_name = $request->name;
@@ -81,10 +103,11 @@ class AuthController extends Controller
         }
         $user->update();
         return response()->json([
-            'success'=>true,
-            'url_image'=>$user->url_image
+            'success' => true,
+            'url_image' => $user->url_image
         ]);
     }
+
     public function generatePassword($password)
     {
         $user_password = Hash::make($password);
@@ -96,9 +119,9 @@ class AuthController extends Controller
     {
         $url_file = "img/users/";
         if ($request->url_image && $request->url_image != '#') {
-            $foto = time().'.jpg';
-            file_put_contents('img/users/'.$foto,base64_decode($request->url_image));
-            return $url_file.$foto;
+            $foto = time() . '.jpg';
+            file_put_contents('img/users/' . $foto, base64_decode($request->url_image));
+            return $url_file . $foto;
 
         } else {
             return "#";

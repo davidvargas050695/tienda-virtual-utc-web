@@ -40,4 +40,6 @@ Route::get('api-products/{id}','admin\ProductController@getApiProducts')->name('
 
 //RUTAS PARA LOS USUARIOS
 Route::get('api-users','admin\UserController@getApiUsers')->name('api-users');
+//RUTAS PARA LAS ORDENES
+Route::post('api-send-order','admin\OrderController@store')->name('api-send-order')->middleware('jwtAuth');;
 

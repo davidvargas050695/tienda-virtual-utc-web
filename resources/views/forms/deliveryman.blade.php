@@ -100,7 +100,7 @@
                     <div class="card bg-secondary shadow border-0">
                         <div class="card-header bg-white pb-2">
                             <div class="text-muted text-center mb-2">
-                                <h5>Formulario de solicitud para repartidores</h5>
+                                <h5>Formulario Solicitud  Repartidor</h5>
                             </div>
                             @if (session('status'))
                                 @if (session('status')!="error")
@@ -231,7 +231,7 @@
                                                 <span class="input-group-text"><i class="ni ni-bus-front-12"></i></span>
                                             </div>
 
-                                            {!! Form::text('vehicle_make', null, ['class'=>'form-control','placeholder'=>'Marca del vehículo']) !!}
+                                            {!! Form::text('vehicle_make', null, ['class'=>'form-control','placeholder'=>'Marca']) !!}
                                         </div>
                                     </div>
                                     @error('vehicle_make')
@@ -262,7 +262,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="ni ni-bus-front-12"></i></span>
                                             </div>
-                                            {!! Form::text('vehicle_plate', null, ['class'=>'form-control','placeholder'=>'Placa del vehículo']) !!}
+                                            {!! Form::text('vehicle_plate', null, ['class'=>'form-control','placeholder'=>'Placa']) !!}
                                         </div>
                                     </div>
                                     @error('vehicle_plate')
@@ -278,7 +278,7 @@
                                                 <span class="input-group-text"><i class="ni ni-bus-front-12"></i></span>
                                             </div>
 
-                                            {!! Form::text('vehicle_year', null, ['class'=>'form-control','placeholder'=>'Año del vehículo']) !!}
+                                            {!! Form::text('vehicle_year', null, ['class'=>'form-control','placeholder'=>'Año']) !!}
                                         </div>
                                     </div>
                                     @error('vehicle_year')
