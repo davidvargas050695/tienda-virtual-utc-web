@@ -155,6 +155,59 @@
                 </div>
             </div>
         @endif
+        @if(count($orders_customers))
+            <div class="col-lg-12">
+                <div class="ibox">
+                    <div class="ibox-head">
+                        <div class="ibox-title">Ordenes</div>
+                        <div class="ibox-tools">
+                            <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item">option 1</a>
+                                <a class="dropdown-item">option 2</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-body">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Empresa</th>
+                                <th>Total</th>
+                                <th>Registrado</th>
+                                <th width="91px">Ver</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($orders_customers as $order)
+                                <tr>
+                                    <td>{{$order->name_customer}}</td>
+                                    <td>{{$order->name_company}}</td>
+                                    <td>{{$order->total}}</td>
+                                    <td>{{\Carbon\Carbon::parse($order->created_at)->diffForHumans()}}</td>
+                                    <td>
+
+                                        @can('modificar solicitud')
+                                            <a href="{{route('get-pdf-order',$order->id)}}"
+                                               class="btn btn-default btn-xs"
+                                               title="Ver petición"
+                                               data-toggle="tooltip">
+                                                <i class="fa fa-eye font-14 text-muted"></i>
+                                            </a>
+                                        @endcan
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                            {{$orders_customers->render()}}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="col-lg-4">
             @if (count($merchants_lasted))
@@ -223,3 +276,4 @@
         </div>
     </div>
 @endsection
+

@@ -8,6 +8,7 @@ use App\DetailOrder;
 use App\Http\Controllers\Controller;
 use App\Order;
 use App\User;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use Egulias\EmailValidator\Warning\ObsoleteDTEXT;
 use Illuminate\Http\Request;
@@ -23,11 +24,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::all()->paginate(10);
     }
-    public function generatePDFOrder(){
 
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -82,6 +81,9 @@ class OrderController extends Controller
                 $detail->save();
 
             }
+            $order->url_order = "orders/orden-" . $order->id . '.pdf';
+            $order->save();
+            $this->savePdfStorage($order->id);
             DB::commit();
 
             return response()->json([
@@ -142,5 +144,72 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function savePdfStorage($id)
+    {
+        $order = DB::table('orders')
+            ->join('customers', 'orders.id_customer', '=', 'customers.id')
+            ->join('companies', 'orders.id_company', '=', 'companies.id')
+            ->join('users', 'orders.id_user', '=', 'users.id')
+            ->select(
+                'orders.id_user',
+                'orders.id_company',
+                'orders.id_customer',
+                'orders.id',
+                'orders.order_number',
+                'orders.latitude',
+                'orders.longitude',
+                'orders.date',
+                'orders.created_at',
+                'orders.total',
+                'orders.status',
+                'orders.name_company',
+                'orders.name_customer',
+                'customers.ci', 'customers.address as address_cus', 'customers.phone as phone_cus', 'customers.email as email_cus',
+                'companies.company_address', 'companies.company_ruc', 'companies.company_phone',
+                'companies.longitude as longitude_com', 'companies.latitude as latitude_com')
+            ->where('orders.id', $id)
+            ->first();
+        $details = DetailOrder::where('id_order', $id)->get();
+        $pdf = PDF::loadView('pdf.pdf', compact('order', 'details'));
+        $nombrePdf = 'orden-' . $order->id . '.pdf';
+        $path = public_path('orders/');
+        $pdf->save($path . '/' . $nombrePdf);
+        //return $pdf->download($nombrePdf);
+    }
+
+    public function generatePDFOrder($id)
+    {
+        $order = DB::table('orders')
+            ->join('customers', 'orders.id_customer', '=', 'customers.id')
+            ->join('companies', 'orders.id_company', '=', 'companies.id')
+            ->join('users', 'orders.id_user', '=', 'users.id')
+            ->select(
+                'orders.id_user',
+                'orders.id_company',
+                'orders.id_customer',
+                'orders.id',
+                'orders.order_number',
+                'orders.latitude',
+                'orders.longitude',
+                'orders.date',
+                'orders.created_at',
+                'orders.total',
+                'orders.status',
+                'orders.name_company',
+                'orders.name_customer',
+                'customers.ci', 'customers.address as address_cus', 'customers.phone as phone_cus', 'customers.email as email_cus',
+                'companies.company_address', 'companies.company_ruc', 'companies.company_phone',
+                'companies.longitude as longitude_com', 'companies.latitude as latitude_com')
+            ->where('orders.id', $id)
+            ->first();
+        $details = DetailOrder::where('id_order', $id)->get();
+        //return view('pdf.pdf', compact('order', 'details'));
+        $pdf = PDF::loadView('pdf.pdf', compact('order', 'details'));
+        //$pdf->setPaper('A4', 'landscape');
+        $nombrePdf = 'orden-' . $order->id . '.pdf';
+        return $pdf->download($nombrePdf);
+
     }
 }

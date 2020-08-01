@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->string('order_number')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->string('url_order')->nullable();
             $table->date('date');
             $table->double('total');
             $table->enum('status', ['pendiente', 'confirmado', 'anulado', 'entregado', 'no entregado'])->default('pendiente');

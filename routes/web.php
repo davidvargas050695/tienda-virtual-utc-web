@@ -161,4 +161,5 @@ Route::middleware('auth')->group(function () {
 
     ///RUTAS ORDENES
     Route::get('get-pdf-order/{id}', 'admin\OrderController@generatePDFOrder')->name('get-pdf-order');
+    Route::get('get-company-orders','admin\OrderController@index')->name('get-company-orders');
 });
