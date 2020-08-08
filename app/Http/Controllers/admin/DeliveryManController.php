@@ -38,6 +38,25 @@ class DeliveryManController extends Controller
         return view('admin.deliveryman.index', compact('deliverymen', 'vehicles'));
     }
 
+    public function getDeliveryman()
+    {
+        $deliveryman = DeliveryMan::join('vehicle_types', 'vehicle_types.id', '=', 'delivery_men.vehicle_type')
+            ->select(
+                'delivery_men.id',
+                'delivery_men.name', 'delivery_men.last_name', 'delivery_men.phone', 'delivery_men.vehicle_plate',
+                'delivery_men.vehicle_description', 'delivery_men.vehicle_make', 'delivery_men.url_vehicle',
+                'delivery_men.status', 'delivery_men.status_order', 'delivery_men.longitude', 'delivery_men.latitude',
+                'vehicle_types.name as type_vehicle'
+            )
+            ->where('delivery_men.status_order', 'disponible')
+            ->where('delivery_men.status', 'aprobado')
+            ->get();
+        return response()->json([
+            'success' => true,
+            'deliveryman' => $deliveryman
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -101,7 +120,7 @@ class DeliveryManController extends Controller
                 $deliveryman->url_vehicle = $this->UploadImageDeliveryMan($request);;
                 $deliveryman->id_user = $user->id;
                 $deliveryman->id_convenio = $request->id_convenio;
-                $deliveryman->url_file =$request_deliveryman->url_file;
+                $deliveryman->url_file = $request_deliveryman->url_file;
                 $deliveryman->save();
 
                 //cambiamos el estado de la peticion
@@ -122,6 +141,7 @@ class DeliveryManController extends Controller
             return redirect()->route('get-request-deliverymen');
         }
     }
+
     public function deleteRequestDelivery($id)
     {
         $request_deliveryman = RequestFormDeliveryMan::find($id);
@@ -129,6 +149,7 @@ class DeliveryManController extends Controller
         $request_deliveryman->delete();
 
     }
+
     public function destroyFile($path_file)
     {
         if (File::exists(public_path($path_file))) {
@@ -137,6 +158,7 @@ class DeliveryManController extends Controller
 
         }
     }
+
     /**
      * Display the specified resource.
      *
@@ -164,7 +186,7 @@ class DeliveryManController extends Controller
             ->pluck('name', 'id');
         $convenios = Convenio::orderBy('name', 'ASC')
             ->pluck('name', 'id');
-        return view('admin.deliveryman.edit', compact('request', 'vehicles', 'convenios','deliveryman'));
+        return view('admin.deliveryman.edit', compact('request', 'vehicles', 'convenios', 'deliveryman'));
     }
 
     /**
@@ -177,60 +199,60 @@ class DeliveryManController extends Controller
     public function update(UpdateDeliveryManPut $request, $id)
     {
 
-            $validate = $request->validated();
-            $deliveryman = DeliveryMan::find($id);
+        $validate = $request->validated();
+        $deliveryman = DeliveryMan::find($id);
 
-            try {
+        try {
 
-                DB::beginTransaction();
-                //CREAMOS UN NUEVO USUARIO
-                $user =  User::find($deliveryman->user->id);
+            DB::beginTransaction();
+            //CREAMOS UN NUEVO USUARIO
+            $user = User::find($deliveryman->user->id);
 
-                $user->name = $request->name;
-                $user->username = $request->name . time();
-                $user->email = $request->email;
-                if($request->file('url_image')){
-                    $this->destroyFile($user->url_file);
-                    $user->url_image = $this->UploadImage($request);
-                }
-                $user->password = $this->generatePassword($request->ci);
-                $user->save();
-                $role = Role::findById(3);
-                $user->assignRole($role);
-
-                ///GURADAMOS LA TABLA DELIVERMAN
-
-                $deliveryman->ci = $request->ci;
-                $deliveryman->ruc = $request->company_ruc;
-                $deliveryman->name = $request->name;
-                $deliveryman->last_name = $request->last_name;
-                $deliveryman->email = $request->email;
-                $deliveryman->phone = $request->phone;
-                $deliveryman->gender = $request->gender;
-                $deliveryman->birth_date = $request->birth_date;
-
-
-                $deliveryman->vehicle_type = $request->vehicle_type;
-                $deliveryman->vehicle_plate = $request->vehicle_plate;
-                $deliveryman->vehicle_year = $request->vehicle_year;
-                $deliveryman->vehicle_make = $request->vehicle_make;
-                $deliveryman->vehicle_description = $request->vehicle_description;
-                if($request->file('url_vehicle')){
-                    $this->destroyFile($deliveryman->url_vehicle);
-                    $deliveryman->url_vehicle = $this->UploadImageDeliveryMan($request);
-                }
-                $deliveryman->id_user = $user->id;
-                $deliveryman->id_convenio = $request->id_convenio;
-                $deliveryman->status = $request->status;
-                $deliveryman->save();
-
-                DB::commit();
-
-                return redirect()->route('get-deliverymen');
-            } catch (Exception $e) {
-                DB::rollBack();
-                return redirect()->route('get-deliverymen');
+            $user->name = $request->name;
+            $user->username = $request->name . time();
+            $user->email = $request->email;
+            if ($request->file('url_image')) {
+                $this->destroyFile($user->url_file);
+                $user->url_image = $this->UploadImage($request);
             }
+            $user->password = $this->generatePassword($request->ci);
+            $user->save();
+            $role = Role::findById(3);
+            $user->assignRole($role);
+
+            ///GURADAMOS LA TABLA DELIVERMAN
+
+            $deliveryman->ci = $request->ci;
+            $deliveryman->ruc = $request->company_ruc;
+            $deliveryman->name = $request->name;
+            $deliveryman->last_name = $request->last_name;
+            $deliveryman->email = $request->email;
+            $deliveryman->phone = $request->phone;
+            $deliveryman->gender = $request->gender;
+            $deliveryman->birth_date = $request->birth_date;
+
+
+            $deliveryman->vehicle_type = $request->vehicle_type;
+            $deliveryman->vehicle_plate = $request->vehicle_plate;
+            $deliveryman->vehicle_year = $request->vehicle_year;
+            $deliveryman->vehicle_make = $request->vehicle_make;
+            $deliveryman->vehicle_description = $request->vehicle_description;
+            if ($request->file('url_vehicle')) {
+                $this->destroyFile($deliveryman->url_vehicle);
+                $deliveryman->url_vehicle = $this->UploadImageDeliveryMan($request);
+            }
+            $deliveryman->id_user = $user->id;
+            $deliveryman->id_convenio = $request->id_convenio;
+            $deliveryman->status = $request->status;
+            $deliveryman->save();
+
+            DB::commit();
+
+            return redirect()->route('get-deliverymen');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->route('get-deliverymen');
+        }
 
     }
 

@@ -27,6 +27,50 @@ class OrderController extends Controller
         $orders = Order::all()->paginate(10);
     }
 
+    public function orders()
+    {
+        $user = User::find(Auth::user()->id);
+        $orders = DB::table('orders')
+            ->join('customers', 'orders.id_customer', '=', 'customers.id')
+            ->join('companies', 'orders.id_company', '=', 'companies.id')
+            ->join('users', 'orders.id_user', '=', 'users.id')
+            ->select(
+                'orders.id_user',
+                'orders.id_company',
+                'orders.id_customer',
+                'orders.id',
+                'orders.order_number',
+                'orders.latitude',
+                'orders.longitude',
+                'orders.date',
+                'orders.created_at',
+                'orders.total',
+                'orders.status',
+                'orders.longitude as longitude_order',
+                'orders.latitude as latitude_order',
+                'orders.name_company',
+                'orders.name_customer',
+                'orders.url_order',
+                'customers.ci', 'customers.address as address_cus', 'customers.phone as phone_cus', 'customers.email as email_cus',
+                'companies.company_address', 'companies.company_ruc', 'companies.company_phone',
+                'companies.longitude as longitude_com', 'companies.latitude as latitude_com')
+            ->where('orders.id_user', $user->id)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'orders' => $orders
+        ]);
+    }
+
+    public function getDetailOrder($id)
+    {
+        $details = DetailOrder::where('id_order', $id)->get();
+        return response()->json([
+            'success' => true,
+            'details' => $details
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -61,8 +105,8 @@ class OrderController extends Controller
             $order->name_company = $company->company_name;
             $order->name_customer = $customer->name . " " . $customer->last_name;
             $order->order_number = "" . time();
-            $order->latitude = "";
-            $order->longitude = "";
+            $order->latitude = $request->latitude;
+            $order->longitude = $request->longitude;
             $order->date = $date;
             $order->total = $request->total_order;
             $order->save();
@@ -199,6 +243,7 @@ class OrderController extends Controller
                 'orders.status',
                 'orders.name_company',
                 'orders.name_customer',
+                'orders.url_order',
                 'customers.ci', 'customers.address as address_cus', 'customers.phone as phone_cus', 'customers.email as email_cus',
                 'companies.company_address', 'companies.company_ruc', 'companies.company_phone',
                 'companies.longitude as longitude_com', 'companies.latitude as latitude_com')
@@ -211,5 +256,9 @@ class OrderController extends Controller
         $nombrePdf = 'orden-' . $order->id . '.pdf';
         return $pdf->download($nombrePdf);
 
+    }
+
+    public function downloadPdfOrder($id){
+       // $order =
     }
 }

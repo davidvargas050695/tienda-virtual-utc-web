@@ -34,6 +34,9 @@ class CreateDeliveryMenTable extends Migration
             $table->string('vehicle_description');
             $table->string('url_vehicle')->nullable();
             $table->string('url_file')->nullable();
+            $table->string('longitude')->nullable();
+            $table->string('latitude')->nullable();
+            $table->enum('status_order',['disponible','ocupado'])->default('ocupado');
             $table->unsignedBigInteger('id_user');
             $table->enum('status', ['aprobado', 'denegado', 'revision'])->default('aprobado');
             $table->timestamps();

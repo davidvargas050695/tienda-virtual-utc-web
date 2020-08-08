@@ -41,5 +41,10 @@ Route::get('api-products/{id}','admin\ProductController@getApiProducts')->name('
 //RUTAS PARA LOS USUARIOS
 Route::get('api-users','admin\UserController@getApiUsers')->name('api-users');
 //RUTAS PARA LAS ORDENES
-Route::post('api-send-order','admin\OrderController@store')->name('api-send-order')->middleware('jwtAuth');;
+Route::post('api-send-order','admin\OrderController@store')->name('api-send-order')->middleware('jwtAuth');
+Route::get('api-orders','admin\OrderController@orders')->name('api-orders')->middleware('jwtAuth');
+Route::get('api-detail-order/{id}','admin\OrderController@getDetailOrder')->name('api-detail-order')->middleware('jwtAuth');
 
+
+//RUTAS PARA LOS REPARTIDORES
+Route::get('api-deliveriman','admin\DeliveryManController@getDeliveryman')->name('api-deliveriman');

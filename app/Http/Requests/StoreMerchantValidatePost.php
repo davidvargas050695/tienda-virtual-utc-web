@@ -31,7 +31,7 @@ class StoreMerchantValidatePost extends FormRequest
             'last_name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
             'birth_date'=>'date',
             'gender'=>'required',
-            'email'=>['required','email','max:255'],
+            'email'=>['required','email','max:255','unique:users'],
             'status'=>'required',
             'address'=>'required',
             'phone'=>'required',
