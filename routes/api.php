@@ -48,3 +48,5 @@ Route::get('api-detail-order/{id}','admin\OrderController@getDetailOrder')->name
 
 //RUTAS PARA LOS REPARTIDORES
 Route::get('api-deliveriman','admin\DeliveryManController@getDeliveryman')->name('api-deliveriman');
+Route::post('api-send-request-delivery','admin\DeliveryManController@sendRequestDeliveryCompany')->name('api-send-request-delivery')->middleware('jwtAuth');
+Route::get('api-get-request-delivery','admin\DeliveryManController@getRequestCompanyDelivery')->name('api-get-request-delivery');

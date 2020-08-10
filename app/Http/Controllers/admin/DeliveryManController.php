@@ -5,15 +5,18 @@ namespace App\Http\Controllers\admin;
 use App\CompanyType;
 use App\Convenio;
 use App\DeliveryMan;
+use App\OrderDeliveryRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDeliveryManValidatePost;
 use App\Http\Requests\UpdateDeliveryManPut;
 use App\RequestFormDeliveryMan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\User;
 use App\VehicleType;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Hash;
@@ -316,5 +319,67 @@ class DeliveryManController extends Controller
         } else {
             return "#";
         }
+    }
+
+
+    public function sendRequestDeliveryCompany(Request $request)
+    {
+        $date = Carbon::now();
+        $request_delivery = new OrderDeliveryRequest();
+        $request_delivery->id_order = $request->id_order;
+        $request_delivery->id_company = $request->id_company;
+        $request_delivery->id_delivery = $request->id_delivery;
+        $request_delivery->datetime = $date;
+        $request_delivery->status = $request->status;
+        $request_delivery->url_request = "#";
+        $request_delivery->total = 0;
+        $request_delivery->save();
+
+        return response()->json([
+            'success' => true,
+            'request' => $request_delivery
+        ]);
+
+    }
+
+    public function getRequestCompanyDelivery(Request $request){
+        //$user = User::find(Auth::user()->id);
+        $orders = DB::table('order_delivery_requests')
+            ->join('delivery_men', 'order_delivery_requests.id_delivery', '=', 'delivery_men.id')
+            ->join('companies', 'order_delivery_requests.id_company', '=', 'companies.id')
+            ->join('orders', 'order_delivery_requests.id_order', '=', 'orders.id')
+            ->select(
+                'order_delivery_requests.id_order',
+                'order_delivery_requests.id_company',
+                'order_delivery_requests.id_delivery',
+
+                'order_delivery_requests.id',
+                'order_delivery_requests.datetime',
+                'order_delivery_requests.status as status_request',
+
+                'orders.id_customer',
+                'orders.order_number',
+                'orders.latitude',
+                'orders.longitude',
+                'orders.date',
+
+                'orders.total',
+                'orders.status',
+                'orders.longitude as longitude_order',
+                'orders.latitude as latitude_order',
+                'orders.name_company',
+                'orders.name_customer',
+                'orders.url_order',
+
+                'companies.company_address', 'companies.company_ruc', 'companies.company_phone',
+                'companies.longitude as longitude_com', 'companies.latitude as latitude_com'
+            )
+            ->where('order_delivery_requests.id_delivery', 2)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'orders' => $orders
+        ]);
     }
 }

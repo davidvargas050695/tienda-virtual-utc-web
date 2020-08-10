@@ -19,7 +19,7 @@ class CreateOrderDeliveryRequestsTable extends Migration
             $table->unsignedBigInteger('id_company');
             $table->unsignedBigInteger('id_delivery');
             $table->timestamp('datetime')->nullable();
-            $table->enum('status',['entregado','denegado','aceptado','anulado','rechazado']);
+            $table->enum('status',['entregado','denegado','aceptado','anulado','rechazado','enviado'])->default('enviado');;
             $table->string('url_request')->nullable();
             $table->double('total')->default(0);
             $table->timestamps();
