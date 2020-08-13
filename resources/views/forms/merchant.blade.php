@@ -25,7 +25,7 @@
     <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom">
         <div class="container">
             <a class="navbar-brand mr-lg-5" href="{{route('index')}}">
-                <img src="{{asset('img/utc.png')}}">
+                <img style="height: 75px;width: 100px;" src="{{asset('img/utcblanco.png')}}">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_global"
                     aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
                     <div class="row">
                         <div class="col-6 collapse-brand">
                             <a href="{{route('index')}}">
-                                <img src="{{asset('img/utc.png')}}">
+                                <img src="{{asset('img/utccolor.png')}}">
                             </a>
                         </div>
                         <div class="col-6 collapse-close">
@@ -50,31 +50,18 @@
                     </div>
                 </div>
                 <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
-                    UTC Tienda Virtual
+                    <h4 class="text-white">Tienda Virtual UTC</h4>
 
                 </ul>
                 <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                     <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="https://www.facebook.com/creativetim" target="_blank"
-                           data-toggle="tooltip" title="Like us on Facebook">
+                        <a class="nav-link nav-link-icon" href="#" target="_blank"
+                           data-toggle="tooltip" title="Visita nuestro en Facebook">
                             <i class="fa fa-facebook-square"></i>
                             <span class="nav-link-inner--text d-lg-none">Facebook</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="https://www.instagram.com/creativetimofficial"
-                           target="_blank" data-toggle="tooltip" title="Follow us on Instagram">
-                            <i class="fa fa-instagram"></i>
-                            <span class="nav-link-inner--text d-lg-none">Instagram</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="https://twitter.com/creativetim" target="_blank"
-                           data-toggle="tooltip" title="Follow us on Twitter">
-                            <i class="fa fa-twitter-square"></i>
-                            <span class="nav-link-inner--text d-lg-none">Twitter</span>
-                        </a>
-                    </li>
+
 
                 </ul>
             </div>
@@ -245,7 +232,7 @@
                                                 <span class="input-group-text"><i class="ni ni-shop"></i></span>
                                             </div>
 
-                                            {!! Form::text('company_ruc', null, ['class'=>'form-control','placeholder'=>'Ruc']) !!}
+                                            {!! Form::text('company_ruc', null, ['class'=>'form-control','placeholder'=>'ruc-cédula']) !!}
                                         </div>
                                     </div>
                                     @error('company_ruc')
@@ -394,34 +381,21 @@
                     UTC en nuestras redes sociales.</h4>
             </div>
             <div class="col-lg-5 text-lg-center btn-wrapper">
-                <a target="_blank" href="https://twitter.com/creativetim"
-                   class="btn btn-neutral btn-icon-only btn-twitter btn-round btn-lg" data-toggle="tooltip"
-                   data-original-title="Follow us">
-                    <i class="fa fa-twitter"></i>
-                </a>
-                <a target="_blank" href="https://www.facebook.com/creativetim"
+
+                <a target="_blank" href="#"
                    class="btn btn-neutral btn-icon-only btn-facebook btn-round btn-lg" data-toggle="tooltip"
-                   data-original-title="Like us">
+                   data-original-title="Visita nuestro Facebook">
                     <i class="fa fa-facebook-square"></i>
                 </a>
-                <a target="_blank" href="https://dribbble.com/creativetim"
-                   class="btn btn-neutral btn-icon-only btn-dribbble btn-lg btn-round" data-toggle="tooltip"
-                   data-original-title="Follow us">
-                    <i class="fa fa-dribbble"></i>
-                </a>
-                <a target="_blank" href="https://github.com/creativetimofficial"
-                   class="btn btn-neutral btn-icon-only btn-github btn-round btn-lg" data-toggle="tooltip"
-                   data-original-title="Star on Github">
-                    <i class="fa fa-github"></i>
-                </a>
+
             </div>
         </div>
         <hr>
         <div class="row align-items-center justify-content-md-between">
             <div class="col-md-6">
                 <div class="copyright">
-                    &copy; 2018
-                    <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>.
+                    &copy; 2020
+                    <a href="https://www.creative-tim.com" target="_blank">UTC</a>.
                 </div>
             </div>
 

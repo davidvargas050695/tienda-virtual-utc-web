@@ -32,7 +32,7 @@ class StoreMerchantPost extends FormRequest
             'phone' => 'required',
             'email' => 'required|email',
             'company_name' => 'required|string',
-            'company_ruc' => 'numeric|digits:13',
+            'company_ruc' => 'numeric',
             'company_address' => 'required',
             'company_type' => 'required',
             'company_description' => 'required',

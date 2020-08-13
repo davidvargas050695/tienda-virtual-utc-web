@@ -26,7 +26,7 @@ class StoreMerchantValidatePost extends FormRequest
     {
         return [
             'ci' => 'required|numeric|digits:10',
-            'ruc' => 'numeric|unique:users|digits:13',
+            'ruc' => 'numeric|unique:users',
             'name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
             'last_name'=>'required|regex:/^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/u|max:255',
             'birth_date'=>'date',
