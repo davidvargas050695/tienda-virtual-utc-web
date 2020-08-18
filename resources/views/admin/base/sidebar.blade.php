@@ -57,9 +57,7 @@
                         <span class="nav-label">Productos</span><i class="fa fa-angle-left arrow"></i></a>
                     <ul class="nav-2-level collapse">
                         @can('crear producto')
-                            <li>
-                                <a href="{{route('create-product')}}">Crear</a>
-                            </li>
+                           
                         @endcan
                         <li>
                             <a href="{{route('get-product')}}">Lista</a>
@@ -79,6 +77,9 @@
                         @endcan
                         <li>
                             <a href="{{route('get-user')}}">Lista</a>
+                        </li>
+                        <li>
+                            <a href="{{route('customers')}}">Clientes</a>
                         </li>
                     </ul>
                 </li>
@@ -152,6 +153,13 @@
 
 
                     </ul>
+                </li>
+            @endcan
+            @can('leer item')
+                <li>
+                <a href="{{route('get-messages')}}"><i class="sidebar-item-icon fa fa-envelope-o"></i>
+                        <span class="nav-label">Mensajes</span><i class="fa fa-angle-left arrow"></i></a>
+
                 </li>
             @endcan
         </ul>

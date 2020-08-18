@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Customer;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserPost;
 use App\Http\Requests\UpdateUserPut;
@@ -31,6 +32,12 @@ class UserController extends Controller
             $users = User::paginate(10);
             return view('admin.users.index', compact('users', 'parameter'));
         }
+    }
+
+    public function getCustomers()
+    {
+        $customers = Customer::orderBy('created_at','ASC')->paginate(10);
+        return view('admin.customers.index',compact('customers'));
     }
 
     /**

@@ -20,6 +20,9 @@ Auth::routes();
 //RUTAS PUBLICA PRINCIPAL DE LA WEB
 
 Route::get('/', 'WebController@index')->name('index');
+Route::get('categorias', 'WebController@categories')->name('categorias');
+Route::get('contactos', 'WebController@contact')->name('contactos');
+Route::post('enviar-mensaje', 'WebController@senMessage')->name('enviar-mensaje');
 
 
 //RUTAS PARA LAS SOLICITUDES DEL EMPRESARIO Y REPARTIDOR
@@ -39,6 +42,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('admin', 'HomeController@index')->name('admin');
     Route::get('/home', 'HomeController@index')->name('home');
+
+
+    //RUTAS PARA VER LOS MENSAJES
+    Route::get('get-messages', 'WebController@getMessages')->name('get-messages');
 ///RUTAS PARA GESTIONAR LOS ROLES Y PERMISOS
     Route::get('roles', 'admin\RoleController@getRoles')->name('roles');
     Route::get('permissions/{id}', 'admin\RoleController@getPermissions')->name('permissions');
@@ -93,6 +100,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('delete-user/{id}', 'admin\UserController@update')->name('delete-user');
     Route::put('deactivate-user', 'admin\UserController@deactivate')->name('deactivate-user');
 
+
+    ///RUTAS CLIENTES
+    Route::get('customers', 'admin\UserController@getCustomers')->name('customers');
 
 //RUTAS PARA LOS EMPRESARIOS
     Route::get('get-request-merchants', 'admin\MerchantController@getRequestMerchants')->name('get-request-merchants');

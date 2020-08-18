@@ -2,23 +2,8 @@
 
 @section('content')
 <div class="row">
-    @can('crear categoria')
-        <div class="col-md-4">
-            <div class="ibox">
-                <div class="ibox-head bg-info">
-                    <div class="ibox-title text-white">Nueva Categortía</div>
-                    <div class="ibox-tools">
-                    </div>
-                </div>
-                <div class="ibox-body">
-                    {!! Form::open(['url' => 'store-category']) !!}
-                        @include('admin.categories.partials.form')
-                    {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    @endcan
-    <div class="col-md-8">
+
+    <div class="col-md-12">
         <div class="ibox">
             <div class="ibox-head badge-info">
                 <div class="ibox-title">Lista de Categorías</div>
